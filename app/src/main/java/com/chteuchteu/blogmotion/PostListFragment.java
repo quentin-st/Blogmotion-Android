@@ -1,0 +1,159 @@
+package com.chteuchteu.blogmotion;
+
+import android.app.Activity;
+import android.app.ListFragment;
+import android.content.Context;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.chteuchteu.blogmotion.hlpr.Util;
+import com.chteuchteu.blogmotion.obj.Post;
+
+public class PostListFragment extends ListFragment {
+	// Serialization (saved instance state) Bundle key representing the
+    // activated item position. Only used on tablets.
+    private static final String STATE_ACTIVATED_POSITION = "activated_position";
+    // The fragment's current callback object, which is notified of list item clicks.
+    private Callbacks mCallbacks = sDummyCallbacks;
+	// The current activated item position. Only used on tablets.
+    private int mActivatedPosition = ListView.INVALID_POSITION;
+    /**
+     * A callback interface that all activities containing this fragment must
+     * implement. This mechanism allows activities to be notified of item
+     * selections.
+     */
+    public interface Callbacks {
+        public void onItemSelected(long id);
+    }
+
+	private ArrayAdapter<Post> adapter;
+
+    /**
+     * A dummy implementation of the {@link Callbacks} interface that does
+     * nothing. Used only when this fragment is not attached to an activity.
+     */
+    private static Callbacks sDummyCallbacks = new Callbacks() {
+        @Override
+        public void onItemSelected(long id) {
+        }
+    };
+
+    // Mandatory empty constructor for the fragment manager to instantiate the
+    // fragment (e.g. upon screen orientation changes).
+    public PostListFragment() { }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+	    this.adapter = new ArrayAdapter<Post>(
+                getActivity(),
+                android.R.layout.simple_list_item_activated_1,
+                android.R.id.text1,
+                BM.getInstance(null).getPosts());
+
+	    setListAdapter(this.adapter);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Restore the previously serialized activated item position.
+        if (savedInstanceState != null
+                && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
+            setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // Activities containing this fragment must implement its callbacks.
+        if (!(activity instanceof Callbacks))
+            throw new IllegalStateException("Activity must implement fragment's callbacks.");
+
+        mCallbacks = (Callbacks) activity;
+
+	    final Context context = (Context) activity;
+
+	    // Load articles on first launch
+	    if (BM.getInstance(context).getPosts().size() == 0)
+		    BM.getInstance(context).loadArticles(new Util.ProgressListener() {
+			    @Override
+			    public void onPreExecute() {
+				    Toast.makeText(context, "Loading...", Toast.LENGTH_SHORT).show();
+			    }
+
+			    @Override
+			    public void onProgress(int progress, int total) {
+			    }
+
+			    @Override
+			    public void onPostExecute() {
+				    adapter = new ArrayAdapter<Post>(
+						    getActivity(),
+						    android.R.layout.simple_list_item_activated_1,
+						    android.R.id.text1,
+						    BM.getInstance(null).getPosts());
+					
+				    for (Post post : BM.getInstance(null).getPosts())
+				        BM.log(post.getTitle());
+
+				    setListAdapter(adapter);
+			    }
+		    });
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        // Reset the active callbacks interface to the dummy implementation.
+        mCallbacks = sDummyCallbacks;
+    }
+
+    @Override
+    public void onListItemClick(ListView listView, View view, int position, long id) {
+        super.onListItemClick(listView, view, position, id);
+
+        // Notify the active callbacks interface (the activity, if the
+        // fragment is attached to one) that an item has been selected.
+        mCallbacks.onItemSelected(BM.getInstance(null).getPosts().get(position).getId());
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mActivatedPosition != ListView.INVALID_POSITION) {
+            // Serialize and persist the activated item position.
+            outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
+        }
+    }
+
+    /**
+     * Turns on activate-on-click mode. When this mode is on, list items will be
+     * given the 'activated' state when touched.
+     */
+    public void setActivateOnItemClick(boolean activateOnItemClick) {
+        // When setting CHOICE_MODE_SINGLE, ListView will automatically
+        // give items the 'activated' state when touched.
+        getListView().setChoiceMode(activateOnItemClick
+                ? ListView.CHOICE_MODE_SINGLE
+                : ListView.CHOICE_MODE_NONE);
+    }
+
+    private void setActivatedPosition(int position) {
+        if (position == ListView.INVALID_POSITION) {
+            getListView().setItemChecked(mActivatedPosition, false);
+        } else {
+            getListView().setItemChecked(position, true);
+        }
+
+        mActivatedPosition = position;
+    }
+}
