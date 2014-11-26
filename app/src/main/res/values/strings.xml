@@ -4,5 +4,6 @@
     <string name="app_name">Blogmotion</string>
     <string name="title_post_detail">Post Detail</string>
 	<string name="refresh">Actualiser</string>
+	<string name="open_in_browser">Ouvrir dans le navigateur</string>
 
 </resources>

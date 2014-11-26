@@ -1,6 +1,9 @@
 package com.chteuchteu.blogmotion;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 
 /**
@@ -8,6 +11,7 @@ import android.os.Bundle;
  * more than a {@link PostDetailFragment}.
  */
 public class PostDetailActivity extends BMActivity {
+	private long postId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +33,12 @@ public class PostDetailActivity extends BMActivity {
         // http://developer.android.com/guide/components/fragments.html
         //
         if (savedInstanceState == null) {
+	        this.postId = getIntent().getLongExtra(PostDetailFragment.ARG_ITEM_ID, -1);
+
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(PostDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(PostDetailFragment.ARG_ITEM_ID));
+            arguments.putLong(PostDetailFragment.ARG_ITEM_ID, postId);
             PostDetailFragment fragment = new PostDetailFragment();
             fragment.setArguments(arguments);
             getFragmentManager().beginTransaction()
@@ -45,4 +50,15 @@ public class PostDetailActivity extends BMActivity {
 
 	    super.afterOnCreate();
     }
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu_open:
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(BM.getInstance(this.context).getPost(postId).getPermalink())));
+
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 }
