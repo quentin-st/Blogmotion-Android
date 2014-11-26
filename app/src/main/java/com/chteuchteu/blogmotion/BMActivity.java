@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -33,6 +34,8 @@ public class BMActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		this.context = this;
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			int id = getResources().getIdentifier("config_enableTranslucentDecor", "bool", "android");
@@ -65,7 +68,11 @@ public class BMActivity extends ActionBarActivity {
 	}
 
 	protected void createOptionsMenu() {
+		if (this.menuRes == 0)
+			return;
 
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(this.menuRes, menu);
 	}
 
 	protected void toggleDrawer() {
@@ -80,16 +87,7 @@ public class BMActivity extends ActionBarActivity {
 		switch (item.getItemId()) {
 			case android.R.id.home:
 				toggleDrawer();
-
 				return true;
-			/*case R.id.menu_settings:
-				startActivity(new Intent(context, Activity_Settings.class));
-				Util.setTransition(context, Util.TransitionStyle.DEEPER);
-				return true;
-			case R.id.menu_about:
-				startActivity(new Intent(context, Activity_About.class));
-				Util.setTransition(context, Util.TransitionStyle.DEEPER);
-				return true;*/
 		}
 
 		return true;

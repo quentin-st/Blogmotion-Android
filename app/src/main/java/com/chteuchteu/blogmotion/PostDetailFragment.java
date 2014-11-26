@@ -39,7 +39,6 @@ public class PostDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_post_detail, container, false);
 
         if (mItem != null) {
-	        BM.log("Displaying " + mItem.getContent());
 	        WebView webView = (WebView) rootView.findViewById(R.id.post_detail);
 	        webView.setVerticalScrollBarEnabled(true);
 	        webView.getSettings().setDefaultTextEncodingName("utf-8");
@@ -48,7 +47,7 @@ public class PostDetailFragment extends Fragment {
 	        webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 	        webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
 
-	        webView.loadData(mItem.getContent(), "text/html", "utf-8");
+	        webView.loadDataWithBaseURL(null, mItem.getContent(), "text/html", "utf-8", null);
         }
 
         return rootView;

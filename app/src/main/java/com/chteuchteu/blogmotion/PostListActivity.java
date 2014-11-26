@@ -2,9 +2,12 @@ package com.chteuchteu.blogmotion;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.chteuchteu.blogmotion.hlpr.Util;
 
 public class PostListActivity extends BMActivity implements PostListFragment.Callbacks {
-
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -36,6 +39,36 @@ public class PostListActivity extends BMActivity implements PostListFragment.Cal
 
 	    super.afterOnCreate();
     }
+
+	public void fetchArticles() {
+		// Load articles on first launch
+		if (BM.getInstance(context).getPosts().isEmpty())
+			BM.getInstance(context).loadArticles(new Util.ProgressListener() {
+				@Override
+				public void onPreExecute() {
+					Toast.makeText(context, "Loading...", Toast.LENGTH_SHORT).show();
+				}
+
+				@Override
+				public void onProgress(int progress, int total) {
+				}
+
+				@Override
+				public void onPostExecute() {
+					((PostListFragment) getFragmentManager().findFragmentById(R.id.post_list)).refreshList();
+				}
+			});
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu_refresh:
+				fetchArticles();
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
     /**
      * Callback method from {@link PostListFragment.Callbacks}

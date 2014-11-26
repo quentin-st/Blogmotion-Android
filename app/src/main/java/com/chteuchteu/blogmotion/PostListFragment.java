@@ -7,9 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.chteuchteu.blogmotion.hlpr.Util;
 import com.chteuchteu.blogmotion.obj.Post;
 
 public class PostListFragment extends ListFragment {
@@ -79,35 +77,21 @@ public class PostListFragment extends ListFragment {
 
         mCallbacks = (Callbacks) activity;
 
-	    final Context context = (Context) activity;
-
-	    // Load articles on first launch
-	    if (BM.getInstance(context).getPosts().size() == 0)
-		    BM.getInstance(context).loadArticles(new Util.ProgressListener() {
-			    @Override
-			    public void onPreExecute() {
-				    Toast.makeText(context, "Loading...", Toast.LENGTH_SHORT).show();
-			    }
-
-			    @Override
-			    public void onProgress(int progress, int total) {
-			    }
-
-			    @Override
-			    public void onPostExecute() {
-				    adapter = new ArrayAdapter<Post>(
-						    getActivity(),
-						    android.R.layout.simple_list_item_activated_1,
-						    android.R.id.text1,
-						    BM.getInstance(null).getPosts());
-					
-				    for (Post post : BM.getInstance(null).getPosts())
-				        BM.log(post.getTitle());
-
-				    setListAdapter(adapter);
-			    }
-		    });
+	    final Context context = activity;
     }
+
+	public void refreshList() {
+		adapter = new ArrayAdapter<Post>(
+				getActivity(),
+				android.R.layout.simple_list_item_activated_1,
+				android.R.id.text1,
+				BM.getInstance(null).getPosts());
+
+		for (Post post : BM.getInstance(null).getPosts())
+			BM.log(post.getTitle());
+
+		setListAdapter(adapter);
+	}
 
     @Override
     public void onDetach() {
