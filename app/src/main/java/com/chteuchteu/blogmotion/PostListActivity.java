@@ -2,9 +2,8 @@ package com.chteuchteu.blogmotion;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 
-public class PostListActivity extends Activity implements PostListFragment.Callbacks {
+public class PostListActivity extends BMActivity implements PostListFragment.Callbacks {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -32,6 +31,10 @@ public class PostListActivity extends Activity implements PostListFragment.Callb
         }
 
         // TODO: If exposing deep links into your app, handle intents here.
+
+	    this.menuRes = R.menu.postlist;
+
+	    super.afterOnCreate();
     }
 
     /**

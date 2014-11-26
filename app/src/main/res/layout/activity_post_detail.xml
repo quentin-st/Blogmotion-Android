@@ -1,7 +1,28 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/post_detail_container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".PostDetailActivity"
-    tools:ignore="MergeRootFrame" />
+<android.support.v4.widget.DrawerLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/drawer_layout"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<LinearLayout
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		android:fitsSystemWindows="true">
+
+		<include layout="@layout/incl_toolbar" />
+
+		<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			xmlns:tools="http://schemas.android.com/tools"
+			android:id="@+id/post_detail_container"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			tools:context=".PostDetailActivity"
+			tools:ignore="MergeRootFrame" />
+
+	</LinearLayout>
+
+	<include layout="@layout/drawer" />
+
+</android.support.v4.widget.DrawerLayout>

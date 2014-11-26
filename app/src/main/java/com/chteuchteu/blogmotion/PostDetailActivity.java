@@ -1,7 +1,5 @@
 package com.chteuchteu.blogmotion;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -12,8 +10,7 @@ import android.view.MenuItem;
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link PostDetailFragment}.
  */
-public class PostDetailActivity extends Activity {
-	private Context context;
+public class PostDetailActivity extends BMActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +43,10 @@ public class PostDetailActivity extends Activity {
                     .add(R.id.post_detail_container, fragment)
                     .commit();
         }
+
+	    this.menuRes = R.menu.postdetail;
+
+	    super.afterOnCreate();
     }
 
     @Override

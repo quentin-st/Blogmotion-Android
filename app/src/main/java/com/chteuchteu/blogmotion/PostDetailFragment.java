@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 
 import com.chteuchteu.blogmotion.obj.Post;
 
@@ -22,7 +24,6 @@ public class PostDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
 	public void onAttach(Activity activity) {
@@ -30,7 +31,6 @@ public class PostDetailFragment extends Fragment {
 
 		if (getArguments().containsKey(ARG_ITEM_ID))
 			mItem = BM.getInstance(activity).getPost(getArguments().getLong(ARG_ITEM_ID));
-
 	}
 
     @Override
@@ -38,10 +38,18 @@ public class PostDetailFragment extends Fragment {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_post_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
-        //if (mItem != null) {
-        //    ((TextView) rootView.findViewById(R.id.post_detail)).setText(mItem.content);
-        //}
+        if (mItem != null) {
+	        BM.log("Displaying " + mItem.getContent());
+	        WebView webView = (WebView) rootView.findViewById(R.id.post_detail);
+	        webView.setVerticalScrollBarEnabled(true);
+	        webView.getSettings().setDefaultTextEncodingName("utf-8");
+	        webView.setBackgroundColor(0x00000000);
+	        webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+	        webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+	        webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+
+	        webView.loadData(mItem.getContent(), "text/html", "utf-8");
+        }
 
         return rootView;
     }

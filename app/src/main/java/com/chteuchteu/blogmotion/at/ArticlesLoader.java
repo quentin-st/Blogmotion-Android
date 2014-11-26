@@ -9,6 +9,9 @@ import com.chteuchteu.blogmotion.obj.Post;
 
 import java.util.List;
 
+/**
+ * Gets a list of Article to be put in the posts array list in parameter
+ */
 public class ArticlesLoader extends AsyncTask<Void, Integer, Void> {
 	private List<Post> posts;
 	private Util.ProgressListener progressListener;
