@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.chteuchteu.blogmotion.at.ArticlesLoader;
+import com.chteuchteu.blogmotion.hlpr.DatabaseHelper;
 import com.chteuchteu.blogmotion.hlpr.Util;
 import com.chteuchteu.blogmotion.obj.Post;
 
@@ -16,12 +17,14 @@ public class BM {
 	private static BM instance;
 
 	private List<Post> posts;
+	private DatabaseHelper dbHelper;
 
 	private BM(Context context) {
 		loadInstance(context);
 	}
 
 	private void loadInstance(Context context) {
+		this.dbHelper = new DatabaseHelper(context);
 		this.posts = new ArrayList<Post>();
 	}
 
@@ -40,9 +43,10 @@ public class BM {
 		return null;
 	}
 
-	public void loadArticles(Util.ProgressListener progressListener) {
-		new ArticlesLoader(posts, progressListener).execute();
+	public void loadArticles(Util.ProgressListener progressListener, boolean forceLoad) {
+		new ArticlesLoader(posts, progressListener, forceLoad).execute();
 	}
 
+	public DatabaseHelper getDbHelper() { return this.dbHelper; }
 	public static void log(String s) { if (BuildConfig.DEBUG) Log.i("Blogmotion", s); }
 }

@@ -11,6 +11,8 @@ import android.widget.ListView;
 import com.chteuchteu.blogmotion.obj.Post;
 
 public class PostListFragment extends ListFragment {
+	private Context context;
+
 	// Serialization (saved instance state) Bundle key representing the
     // activated item position. Only used on tablets.
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
@@ -47,13 +49,6 @@ public class PostListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-	    this.adapter = new ArrayAdapter<Post>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                BM.getInstance(null).getPosts());
-
-	    setListAdapter(this.adapter);
     }
 
     @Override
@@ -77,7 +72,15 @@ public class PostListFragment extends ListFragment {
 
         mCallbacks = (Callbacks) activity;
 
-	    final Context context = activity;
+	    context = activity;
+
+	    this.adapter = new ArrayAdapter<Post>(
+			    getActivity(),
+			    android.R.layout.simple_list_item_activated_1,
+			    android.R.id.text1,
+			    BM.getInstance(context).getPosts());
+
+	    setListAdapter(this.adapter);
     }
 
 	public void refreshList() {
@@ -85,9 +88,9 @@ public class PostListFragment extends ListFragment {
 				getActivity(),
 				android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1,
-				BM.getInstance(null).getPosts());
+				BM.getInstance(context).getPosts());
 
-		for (Post post : BM.getInstance(null).getPosts())
+		for (Post post : BM.getInstance(context).getPosts())
 			BM.log(post.getTitle());
 
 		setListAdapter(adapter);
@@ -107,7 +110,7 @@ public class PostListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(BM.getInstance(null).getPosts().get(position).getId());
+        mCallbacks.onItemSelected(BM.getInstance(context).getPosts().get(position).getId());
     }
 
     @Override

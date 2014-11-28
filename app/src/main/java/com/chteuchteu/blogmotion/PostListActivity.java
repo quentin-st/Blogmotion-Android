@@ -3,7 +3,6 @@ package com.chteuchteu.blogmotion;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.chteuchteu.blogmotion.hlpr.Util;
 
@@ -18,6 +17,9 @@ public class PostListActivity extends BMActivity implements PostListFragment.Cal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_list);
+
+	    // Init BM
+	    BM.getInstance(this);
 
         if (findViewById(R.id.post_detail_container) != null) {
             // The detail container view will be present only in the
@@ -38,15 +40,16 @@ public class PostListActivity extends BMActivity implements PostListFragment.Cal
 	    this.menuRes = R.menu.postlist;
 
 	    super.afterOnCreate();
+
+	    fetchArticles(false);
     }
 
-	public void fetchArticles() {
+	public void fetchArticles(boolean forceLoad) {
 		// Load articles on first launch
-		if (BM.getInstance(context).getPosts().isEmpty())
+		if (BM.getInstance(context).getPosts().isEmpty() || forceLoad)
 			BM.getInstance(context).loadArticles(new Util.ProgressListener() {
 				@Override
 				public void onPreExecute() {
-					Toast.makeText(context, "Loading...", Toast.LENGTH_SHORT).show();
 				}
 
 				@Override
@@ -57,14 +60,14 @@ public class PostListActivity extends BMActivity implements PostListFragment.Cal
 				public void onPostExecute() {
 					((PostListFragment) getFragmentManager().findFragmentById(R.id.post_list)).refreshList();
 				}
-			});
+			}, forceLoad);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_refresh:
-				fetchArticles();
+				fetchArticles(true);
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
