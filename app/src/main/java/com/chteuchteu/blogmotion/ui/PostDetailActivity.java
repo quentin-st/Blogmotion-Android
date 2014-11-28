@@ -7,6 +7,7 @@ import android.view.MenuItem;
 
 import com.chteuchteu.blogmotion.BM;
 import com.chteuchteu.blogmotion.R;
+import com.chteuchteu.blogmotion.obj.Post;
 
 
 /**
@@ -15,6 +16,7 @@ import com.chteuchteu.blogmotion.R;
  */
 public class PostDetailActivity extends BMActivity {
 	private long postId;
+	private Post post;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +49,17 @@ public class PostDetailActivity extends BMActivity {
             getFragmentManager().beginTransaction()
                     .add(R.id.post_detail_container, fragment)
                     .commit();
+
+	        this.post = BM.getInstance(this).getPost(postId);
         }
 
 	    this.menuRes = R.menu.postdetail;
 
+
 	    super.afterOnCreate();
+
+	    if (this.post != null)
+		    this.actionBar.setTitle(this.post.getTitle());
     }
 
 	@Override

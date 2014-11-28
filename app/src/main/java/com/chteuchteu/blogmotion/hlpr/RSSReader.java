@@ -1,8 +1,6 @@
 package com.chteuchteu.blogmotion.hlpr;
 
 
-import android.util.Log;
-
 import com.chteuchteu.blogmotion.obj.Post;
 
 import org.w3c.dom.Document;
@@ -25,29 +23,23 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class RSSReader {
 	private static final String ARTICLES_FOOTER_SEP = "<br />Vous devriez me suivre sur Twitter : <strong><a href=\"http://twitter.com/xhark\">@xhark</a></strong>";
-	private static final String ARTICLES_BEFORE = "<html><head><meta name=\"viewport\" content=\"initial-scale=1.0, user-scalable=no\" /></head><body>";
+	private static final String ARTICLES_BEFORE =
+			"<html><head>" +
+				"<meta name=\"viewport\" content=\"initial-scale=1.0, user-scalable=no\" />" +
+				"<style>body { width: 100%; padding:10px 0 20px 0; margin:0; } img, iframe { max-width:100%; height:auto; } p { text-align:justify; } </style>" +
+			"</head><body>";
 	private static final String ARTICLES_AFTER = "</body></html>";
 
 	public static void parse(String feedurl, List<Post> posts) {
 		posts.clear();
 
 		try {
-			//if (thread != null)
-			//	thread.manualPublishProgress(10);
-
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			URL url = new URL(feedurl);
-			Document doc = builder.parse(url.openStream());
-			Element element;
-
-			//if (thread != null)
-			//	thread.manualPublishProgress(50);
-
-			//nodes = doc.getElementsByTagName("title");
+			Document doc = builder.parse(new URL(feedurl).openStream());
 
 			NodeList nodes = doc.getElementsByTagName("item");
-			for (int i = 0; i < nodes.getLength(); i++) {
-				element = (Element) nodes.item(i);
+			for (int i=0; i < nodes.getLength(); i++) {
+				Element element = (Element) nodes.item(i);
 				if (!readNode(element, "title").equals("")) {
 					String title = readNode(element, "title");
 					String permalink = readNode(element, "link");
@@ -67,20 +59,14 @@ public class RSSReader {
 					List<String> categories = new ArrayList<String>();
 
 					posts.add(new Post((long) i, title, permalink, publishDate, categories, description, content));
-
-					int percentage = i * 100 / nodes.getLength() / 2 + 50;
-					//if (thread != null)
-					//	thread.manualPublishProgress(percentage);
 				}
 			}
-			//if (thread != null)
-			//	thread.manualPublishProgress(100);
 		} catch (SAXException ex) {
-			Log.e("", ex.toString());
+			ex.printStackTrace();
 		} catch (IOException ex) {
-			Log.e("", ex.toString());
+			ex.printStackTrace();
 		} catch (ParserConfigurationException ex) {
-			Log.e("", ex.toString());
+			ex.printStackTrace();
 		}
 	}
 
@@ -91,8 +77,8 @@ public class RSSReader {
 		if (paths.length > 0) {
 			node = _node;
 
-			for (int i=0; i<paths.length; i++)
-				node = getChildByName(node, paths[i].trim());
+			for (String path : paths)
+				node = getChildByName(node, path.trim());
 		}
 
 		if (node != null)

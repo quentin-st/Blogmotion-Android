@@ -4,5 +4,6 @@
     style="?android:attr/textAppearanceLarge"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-	android:layout_margin="5dp"
+	android:layout_marginLeft="5dp"
+	android:layout_marginRight="5dp"
     tools:context=".PostDetailFragment" />
