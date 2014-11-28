@@ -90,9 +90,6 @@ public class PostListFragment extends ListFragment {
 				android.R.id.text1,
 				BM.getInstance(context).getPosts());
 
-		for (Post post : BM.getInstance(context).getPosts())
-			BM.log(post.getTitle());
-
 		setListAdapter(adapter);
 	}
 

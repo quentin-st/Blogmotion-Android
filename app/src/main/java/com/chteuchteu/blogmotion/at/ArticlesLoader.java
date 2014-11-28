@@ -33,23 +33,29 @@ public class ArticlesLoader extends AsyncTask<Void, Integer, Void> {
 
 	@Override
 	protected Void doInBackground(Void... arg0) {
-		this.progressListener.onProgress(0, 1);
+		publishProgress(5);
 
 		DatabaseHelper dbHelper = BM.getInstance(null).getDbHelper();
 
 		boolean hasPosts = dbHelper.hasPosts();
 		if (forceLoad || !hasPosts) {
+			publishProgress(30);
+
 			RSSReader.parse(BM.FEED_URL, this.posts);
+
+			publishProgress(70);
 
 			if (hasPosts)
 				dbHelper.clearPosts();
 			dbHelper.insertPosts(posts);
 		} else {
+			publishProgress(30);
+
 			this.posts.clear();
 			this.posts.addAll(dbHelper.getPosts());
 		}
 
-		this.progressListener.onProgress(1, 1);
+		this.progressListener.onProgress(100, 100);
 
 		return null;
 	}
@@ -58,4 +64,6 @@ public class ArticlesLoader extends AsyncTask<Void, Integer, Void> {
 	protected void onPostExecute(Void result) {
 		this.progressListener.onPostExecute();
 	}
+
+	private void publishProgress(int progress) { this.progressListener.onProgress(progress, 100); }
 }

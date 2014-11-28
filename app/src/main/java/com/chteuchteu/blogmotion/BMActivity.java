@@ -8,7 +8,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +17,7 @@ import android.view.WindowManager;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.balysv.materialmenu.extras.toolbar.MaterialMenuIconToolbar;
+import com.chteuchteu.blogmotion.hlpr.DrawerHelper;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class BMActivity extends ActionBarActivity {
@@ -28,8 +28,8 @@ public class BMActivity extends ActionBarActivity {
 
 	private Menu menu;
 	protected int menuRes;
-	private DrawerLayout drawerLayout;
-	private boolean isDrawerOpened;
+
+	private DrawerHelper drawerHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +65,8 @@ public class BMActivity extends ActionBarActivity {
 			}
 		};
 		this.materialMenu.setNeverDrawTouch(true);
+
+		this.drawerHelper = new DrawerHelper(this, this);
 	}
 
 	protected void createOptionsMenu() {
@@ -76,10 +78,7 @@ public class BMActivity extends ActionBarActivity {
 	}
 
 	protected void toggleDrawer() {
-		if (isDrawerOpened)
-			drawerLayout.closeDrawer(Gravity.LEFT);
-		else
-			drawerLayout.openDrawer(Gravity.LEFT);
+		this.drawerHelper.toggleDrawer();
 	}
 
 	@Override
@@ -97,20 +96,18 @@ public class BMActivity extends ActionBarActivity {
 	public boolean onCreateOptionsMenu(final Menu menu) {
 		this.menu = menu;
 
-		this.drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-		this.drawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+		this.drawerHelper.setDrawerListener(new DrawerLayout.DrawerListener() {
 			@Override
 			public void onDrawerSlide(View view, float slideOffset) {
 				materialMenu.setTransformationOffset(
 						MaterialMenuDrawable.AnimationState.BURGER_ARROW,
-						isDrawerOpened ? 2 - slideOffset : slideOffset
+						drawerHelper.isDrawerOpened() ? 2 - slideOffset : slideOffset
 				);
 			}
 
 			@Override
 			public void onDrawerOpened(View view) {
-				isDrawerOpened = true;
+				drawerHelper.setDrawerOpened(true);
 				materialMenu.animatePressedState(MaterialMenuDrawable.IconState.ARROW);
 
 				actionBar.setSubtitle(actionBar.getTitle());
@@ -122,7 +119,7 @@ public class BMActivity extends ActionBarActivity {
 
 			@Override
 			public void onDrawerClosed(View view) {
-				isDrawerOpened = false;
+				drawerHelper.setDrawerOpened(false);
 				materialMenu.animatePressedState(MaterialMenuDrawable.IconState.BURGER);
 
 				actionBar.setTitle(actionBar.getSubtitle());
@@ -132,8 +129,7 @@ public class BMActivity extends ActionBarActivity {
 			}
 
 			@Override
-			public void onDrawerStateChanged(int i) {
-			}
+			public void onDrawerStateChanged(int i) { }
 		});
 
 		createOptionsMenu();

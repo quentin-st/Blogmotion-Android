@@ -3,6 +3,8 @@ package com.chteuchteu.blogmotion;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.chteuchteu.blogmotion.hlpr.Util;
 
@@ -12,6 +14,8 @@ public class PostListActivity extends BMActivity implements PostListFragment.Cal
      * device.
      */
     private boolean mTwoPane;
+
+	private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,7 @@ public class PostListActivity extends BMActivity implements PostListFragment.Cal
 
 	    super.afterOnCreate();
 
+	    this.progressBar = Util.prepareGmailStyleProgressBar(this, this.actionBar);
 	    fetchArticles(false);
     }
 
@@ -50,15 +55,23 @@ public class PostListActivity extends BMActivity implements PostListFragment.Cal
 			BM.getInstance(context).loadArticles(new Util.ProgressListener() {
 				@Override
 				public void onPreExecute() {
+					progressBar.setProgress(0);
+					progressBar.setVisibility(View.VISIBLE);
+					progressBar.setIndeterminate(true);
 				}
 
 				@Override
 				public void onProgress(int progress, int total) {
+					progressBar.setIndeterminate(false);
+					progressBar.setProgress(progress);
+					progressBar.setMax(total);
 				}
 
 				@Override
 				public void onPostExecute() {
 					((PostListFragment) getFragmentManager().findFragmentById(R.id.post_list)).refreshList();
+					progressBar.setProgress(0);
+					progressBar.setVisibility(View.GONE);
 				}
 			}, forceLoad);
 	}
