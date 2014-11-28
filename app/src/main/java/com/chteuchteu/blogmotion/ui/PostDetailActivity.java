@@ -1,14 +1,17 @@
-package com.chteuchteu.blogmotion;
+package com.chteuchteu.blogmotion.ui;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.chteuchteu.blogmotion.BM;
+import com.chteuchteu.blogmotion.R;
+
 
 /**
  * This activity is mostly just a 'shell' activity containing nothing
- * more than a {@link PostDetailFragment}.
+ * more than a {@link com.chteuchteu.blogmotion.ui.PostDetailFragment}.
  */
 public class PostDetailActivity extends BMActivity {
 	private long postId;

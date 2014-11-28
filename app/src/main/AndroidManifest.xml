@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".PostListActivity"
+            android:name=".ui.PostListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,14 +19,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PostDetailActivity"
+            android:name=".ui.PostDetailActivity"
             android:label="@string/title_post_detail"
 			android:hardwareAccelerated="true"
-            android:parentActivityName=".PostListActivity" >
+            android:parentActivityName=".ui.PostListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".PostListActivity" />
         </activity>
+        <meta-data android:name="com.crashlytics.ApiKey" android:value="b7bc84aa870bd35d3de03f69309f1748a52354a4"/>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.chteuchteu.blogmotion;
+package com.chteuchteu.blogmotion.ui;
 
 import android.app.Activity;
 import android.app.ListFragment;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.chteuchteu.blogmotion.BM;
 import com.chteuchteu.blogmotion.obj.Post;
 
 public class PostListFragment extends ListFragment {

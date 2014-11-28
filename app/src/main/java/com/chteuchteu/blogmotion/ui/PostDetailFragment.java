@@ -1,4 +1,4 @@
-package com.chteuchteu.blogmotion;
+package com.chteuchteu.blogmotion.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -10,6 +10,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.chteuchteu.blogmotion.BM;
+import com.chteuchteu.blogmotion.R;
 import com.chteuchteu.blogmotion.obj.Post;
 
 public class PostDetailFragment extends Fragment {

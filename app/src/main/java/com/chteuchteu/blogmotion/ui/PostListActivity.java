@@ -1,4 +1,4 @@
-package com.chteuchteu.blogmotion;
+package com.chteuchteu.blogmotion.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.chteuchteu.blogmotion.BM;
+import com.chteuchteu.blogmotion.R;
 import com.chteuchteu.blogmotion.hlpr.Util;
+import com.crashlytics.android.Crashlytics;
 
 public class PostListActivity extends BMActivity implements PostListFragment.Callbacks {
     /**
@@ -21,6 +24,8 @@ public class PostListActivity extends BMActivity implements PostListFragment.Cal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_list);
+
+	    Crashlytics.start(this);
 
 	    // Init BM
 	    BM.getInstance(this);

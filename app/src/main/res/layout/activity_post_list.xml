@@ -15,7 +15,7 @@
 
 		<fragment
 			android:id="@+id/post_list"
-			android:name="com.chteuchteu.blogmotion.PostListFragment"
+			android:name="com.chteuchteu.blogmotion.ui.PostListFragment"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:layout_marginLeft="16dp"

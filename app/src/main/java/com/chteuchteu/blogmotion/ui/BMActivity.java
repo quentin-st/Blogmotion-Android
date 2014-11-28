@@ -1,4 +1,4 @@
-package com.chteuchteu.blogmotion;
+package com.chteuchteu.blogmotion.ui;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -17,6 +17,7 @@ import android.view.WindowManager;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.balysv.materialmenu.extras.toolbar.MaterialMenuIconToolbar;
+import com.chteuchteu.blogmotion.R;
 import com.chteuchteu.blogmotion.hlpr.DrawerHelper;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
