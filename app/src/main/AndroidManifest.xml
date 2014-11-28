@@ -21,6 +21,7 @@
         <activity
             android:name=".PostDetailActivity"
             android:label="@string/title_post_detail"
+			android:hardwareAccelerated="true"
             android:parentActivityName=".PostListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

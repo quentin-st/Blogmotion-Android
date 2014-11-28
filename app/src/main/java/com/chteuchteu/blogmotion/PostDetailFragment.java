@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -34,18 +35,24 @@ public class PostDetailFragment extends Fragment {
 	}
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_post_detail, container, false);
 
         if (mItem != null) {
 	        WebView webView = (WebView) rootView.findViewById(R.id.post_detail);
 	        webView.setVerticalScrollBarEnabled(true);
-	        webView.getSettings().setDefaultTextEncodingName("utf-8");
 	        webView.setBackgroundColor(0x00000000);
 	        webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-	        webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-	        webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+	        webView.setWebChromeClient(new WebChromeClient());
+
+	        WebSettings webSettings = webView.getSettings();
+	        webSettings.setPluginState(WebSettings.PluginState.ON);
+	        webSettings.setJavaScriptEnabled(true);
+	        webSettings.setUseWideViewPort(true);
+	        webSettings.setLoadWithOverviewMode(true);
+	        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+	        webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+	        webSettings.setDefaultTextEncodingName("utf-8");
 
 	        webView.loadDataWithBaseURL(null, mItem.getContent(), "text/html", "utf-8", null);
         }

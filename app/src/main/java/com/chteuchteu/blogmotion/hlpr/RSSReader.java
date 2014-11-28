@@ -18,14 +18,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class RSSReader {
+	private static final String ARTICLES_FOOTER_SEP = "<br />Vous devriez me suivre sur Twitter : <strong><a href=\"http://twitter.com/xhark\">@xhark</a></strong>";
+	private static final String ARTICLES_BEFORE = "<html><head><meta name=\"viewport\" content=\"initial-scale=1.0, user-scalable=no\" /></head><body>";
+	private static final String ARTICLES_AFTER = "</body></html>";
+
 	public static void parse(String feedurl, List<Post> posts) {
 		posts.clear();
 
@@ -56,9 +58,15 @@ public class RSSReader {
 					if (content.contains("<![CDATA["))
 						content = content.substring("<![CDATA[".length(), content.length() - "]]>".length());
 
+					// Remove articles footer
+					if (content.contains(ARTICLES_FOOTER_SEP))
+						content = content.split(ARTICLES_FOOTER_SEP)[0];
+
+					content = ARTICLES_BEFORE + content + ARTICLES_AFTER;
+
 					List<String> categories = new ArrayList<String>();
 
-					posts.add(new Post((long) i, title, permalink, categories, description, content));
+					posts.add(new Post((long) i, title, permalink, publishDate, categories, description, content));
 
 					int percentage = i * 100 / nodes.getLength() / 2 + 50;
 					//if (thread != null)
@@ -119,7 +127,7 @@ public class RSSReader {
 			SimpleDateFormat dfFrench = new SimpleDateFormat("d/MM", Locale.FRANCE);
 			return dfFrench.format(dfGMT.getCalendar().getTime());
 		} catch (ParseException ex) {
-			Logger.getLogger(RSSReader.class.getName()).log(Level.SEVERE, null, ex);
+			ex.printStackTrace();
 		}
 		return "";
 	}
