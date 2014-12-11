@@ -121,6 +121,7 @@ public class PostListActivity extends BMActivity implements PostListFragment.Cal
             Intent detailIntent = new Intent(this, PostDetailActivity.class);
             detailIntent.putExtra(PostDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
+	        Util.setTransition(context, Util.TransitionStyle.DEEPER);
         }
     }
 }

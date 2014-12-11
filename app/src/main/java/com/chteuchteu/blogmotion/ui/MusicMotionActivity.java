@@ -39,6 +39,7 @@ public class MusicMotionActivity extends BMActivity {
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 				String targetUrl = BM.getInstance(context).getMusicPosts().get(i).getTargetUrl();
 				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(targetUrl)));
+				Util.setTransition(context, Util.TransitionStyle.DEEPER);
 			}
 		});
 		this.listView.setScrollingCacheEnabled(false);
@@ -90,5 +91,13 @@ public class MusicMotionActivity extends BMActivity {
 				return true;
 			default: return super.onOptionsItemSelected(item);
 		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(this, PostListActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
+		Util.setTransition(context, Util.TransitionStyle.SHALLOWER);
 	}
 }

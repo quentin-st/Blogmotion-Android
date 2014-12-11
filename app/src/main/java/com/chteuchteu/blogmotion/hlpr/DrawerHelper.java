@@ -45,6 +45,7 @@ public class DrawerHelper {
 				switch (i) {
 					case 0:
 						context.startActivity(new Intent(context, MusicMotionActivity.class));
+						Util.setTransition(context, Util.TransitionStyle.DEEPER);
 						break;
 				}
 			}

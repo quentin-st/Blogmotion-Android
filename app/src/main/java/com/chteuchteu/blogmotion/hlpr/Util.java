@@ -130,4 +130,16 @@ public class Util {
 			}
 		}
 	}
+
+	public enum TransitionStyle { DEEPER, SHALLOWER }
+	public static void setTransition(Context context, TransitionStyle transitionStyle) {
+		switch (transitionStyle) {
+			case DEEPER:
+				((Activity) context).overridePendingTransition(R.anim.deeper_in, R.anim.deeper_out);
+				break;
+			case SHALLOWER:
+				((Activity) context).overridePendingTransition(R.anim.shallower_in, R.anim.shallower_out);
+				break;
+		}
+	}
 }

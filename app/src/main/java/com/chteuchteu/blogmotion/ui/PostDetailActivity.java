@@ -7,6 +7,7 @@ import android.view.MenuItem;
 
 import com.chteuchteu.blogmotion.BM;
 import com.chteuchteu.blogmotion.R;
+import com.chteuchteu.blogmotion.hlpr.Util;
 import com.chteuchteu.blogmotion.obj.Post;
 
 
@@ -71,5 +72,13 @@ public class PostDetailActivity extends BMActivity {
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(this, PostListActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
+		Util.setTransition(context, Util.TransitionStyle.SHALLOWER);
 	}
 }
