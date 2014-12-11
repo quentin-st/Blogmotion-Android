@@ -18,6 +18,8 @@ public class MusicMotionActivity extends BMActivity {
 	private ListView listView;
 	private ProgressBar progressBar;
 
+	private boolean refreshing;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,6 +45,10 @@ public class MusicMotionActivity extends BMActivity {
 	}
 
 	private void loadArticles(boolean forceLoad) {
+		if (refreshing)
+			return;
+
+		refreshing = true;
 		// Load articles on first launch
 		if (BM.getInstance(context).getMusicPosts().isEmpty() || forceLoad)
 			BM.getInstance(context).loadMusicArticles(new Util.ProgressListener() {
@@ -65,6 +71,7 @@ public class MusicMotionActivity extends BMActivity {
 					refreshList();
 					progressBar.setProgress(0);
 					progressBar.setVisibility(View.GONE);
+					refreshing = false;
 				}
 			}, forceLoad);
 	}

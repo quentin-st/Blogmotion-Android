@@ -110,23 +110,12 @@ public class BMActivity extends ActionBarActivity {
 			public void onDrawerOpened(View view) {
 				drawerHelper.setDrawerOpened(true);
 				materialMenu.animatePressedState(MaterialMenuDrawable.IconState.ARROW);
-
-				actionBar.setSubtitle(actionBar.getTitle());
-				actionBar.setTitle(getString(R.string.app_name));
-
-				menu.clear();
-				getMenuInflater().inflate(menuRes, menu);
 			}
 
 			@Override
 			public void onDrawerClosed(View view) {
 				drawerHelper.setDrawerOpened(false);
 				materialMenu.animatePressedState(MaterialMenuDrawable.IconState.BURGER);
-
-				actionBar.setTitle(actionBar.getSubtitle());
-				actionBar.setSubtitle(null);
-
-				createOptionsMenu();
 			}
 
 			@Override

@@ -19,6 +19,7 @@ public class PostListActivity extends BMActivity implements PostListFragment.Cal
     private boolean mTwoPane;
 
 	private ProgressBar progressBar;
+	private boolean refreshing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,11 @@ public class PostListActivity extends BMActivity implements PostListFragment.Cal
     }
 
 	public void fetchArticles(boolean forceLoad) {
+		if (refreshing)
+			return;
+
+		refreshing = true;
+
 		// Load articles on first launch
 		if (BM.getInstance(context).getPosts().isEmpty() || forceLoad)
 			BM.getInstance(context).loadArticles(new Util.ProgressListener() {
@@ -77,6 +83,7 @@ public class PostListActivity extends BMActivity implements PostListFragment.Cal
 					((PostListFragment) getFragmentManager().findFragmentById(R.id.post_list)).refreshList();
 					progressBar.setProgress(0);
 					progressBar.setVisibility(View.GONE);
+					refreshing = false;
 				}
 			}, forceLoad);
 	}
