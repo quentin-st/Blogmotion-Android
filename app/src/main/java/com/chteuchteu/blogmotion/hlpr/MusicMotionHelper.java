@@ -30,12 +30,12 @@ public class MusicMotionHelper {
 				Element element = (Element) nodes.item(i);
 				if (!RSSHelper.readNode(element, "title").equals("")) {
 					String title = RSSHelper.readNode(element, "title");
-					String permalink = RSSHelper.readNode(element, "link");
+					//String permalink = RSSHelper.readNode(element, "link");
 					String description = RSSHelper.readNode(element, "description");
 
 					String publishDate = RSSHelper.GMTDateToFrench3(RSSHelper.readNode(element, "pubDate"));
 
-					posts.add(new MusicPost((long) i, title, description, permalink, publishDate));
+					posts.add(new MusicPost((long) i, title, description, publishDate));
 				}
 			}
 		} catch (SAXException | ParserConfigurationException | IOException ex) {

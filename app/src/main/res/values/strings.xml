@@ -5,6 +5,7 @@
     <string name="title_post_detail">Post Detail</string>
     <string name="refresh">Actualiser</string>
     <string name="open_in_browser">Ouvrir dans le navigateur</string>
-    <string name="title_activity_music_motion">MusicMotionActivity</string>
+    <string name="musicmotion">Musicmotion</string>
+	<string name="publishedOn">Publié le</string>
 
 </resources>

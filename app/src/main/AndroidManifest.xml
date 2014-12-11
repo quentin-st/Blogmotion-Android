@@ -25,7 +25,7 @@
             android:parentActivityName=".ui.PostListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".PostListActivity" />
+                android:value=".ui.PostListActivity" />
         </activity>
 
         <meta-data
@@ -34,7 +34,7 @@
 
         <activity
             android:name=".ui.MusicMotionActivity"
-            android:label="@string/title_activity_music_motion" >
+            android:label="@string/musicmotion" >
         </activity>
     </application>
 

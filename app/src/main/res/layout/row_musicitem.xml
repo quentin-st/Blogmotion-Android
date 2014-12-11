@@ -13,14 +13,43 @@
 		android:layout_height="64dp"
 		android:scaleType="centerCrop"/>
 
-	<TextView
-		android:id="@+id/textView"
+	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:textSize="16sp"
+		android:orientation="vertical"
 		android:paddingTop="13dp"
-		android:paddingBottom="17dp"
 		android:paddingLeft="10dp"
-		android:paddingRight="10dp"/>
+		android:paddingRight="10dp">
 
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:paddingBottom="17dp">
+
+			<TextView
+				android:id="@+id/mediaPublishedOn1"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textSize="15sp"
+				android:textColor="#999999"
+				android:text="@string/publishedOn"
+				android:layout_marginRight="3dp"/>
+
+			<TextView
+				android:id="@+id/mediaPublishedOn2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textSize="16sp"/>
+		</LinearLayout>
+
+		<TextView
+			android:id="@+id/mediaName"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:textSize="16sp"
+			android:paddingBottom="6dp"
+			android:textColor="#999999"/>
+
+	</LinearLayout>
 </LinearLayout>

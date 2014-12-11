@@ -29,23 +29,27 @@ public class MusicListAdapter extends ArrayAdapter<MusicPost> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		View rowView;
+		LayoutInflater inflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View rowView = inflater.inflate(R.layout.row_musicitem, parent, false);
 
-		if (convertView == null) {
-			LayoutInflater inflater = (LayoutInflater) context
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			rowView = inflater.inflate(R.layout.row_musicitem, parent, false);
-		}
-		else
-			rowView = convertView;
-
-		TextView textView = (TextView) rowView.findViewById(R.id.textView);
+		TextView tv_publishedOn1 = (TextView) rowView.findViewById(R.id.mediaPublishedOn1);
+		TextView tv_publishedOn2 = (TextView) rowView.findViewById(R.id.mediaPublishedOn2);
+		TextView tv_mediaName = (TextView) rowView.findViewById(R.id.mediaName);
 		final ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView);
 
 		final MusicPost post = this.posts.get(position);
 
-		textView.setText(post.getTitle());
-		Util.Fonts.setFont(context, textView, Util.Fonts.CustomFont.Roboto_Medium);
+		tv_publishedOn2.setText(post.getPubDate());
+		Util.Fonts.setFont(context, tv_publishedOn1, Util.Fonts.CustomFont.Roboto_Regular);
+		Util.Fonts.setFont(context, tv_publishedOn2, Util.Fonts.CustomFont.Roboto_Medium);
+
+		if (post.hasTitle()) {
+			tv_mediaName.setText(post.getTitle());
+			Util.Fonts.setFont(context, tv_mediaName, Util.Fonts.CustomFont.Roboto_Regular);
+		}
+		else
+			tv_mediaName.setVisibility(View.GONE);
 
 		// Load preview picture
 		if (post.getType() == MusicPost.MusicPostType.YOUTUBE) {

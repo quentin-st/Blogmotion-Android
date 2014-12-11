@@ -39,6 +39,7 @@ public class MusicMotionActivity extends BMActivity {
 				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(targetUrl)));
 			}
 		});
+		this.listView.setScrollingCacheEnabled(false);
 	}
 
 	private void loadArticles(boolean forceLoad) {

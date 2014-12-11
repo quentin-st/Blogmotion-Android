@@ -34,7 +34,7 @@ public class MusicArticlesLoader extends AsyncTask<Void, Integer, Void> {
 
 		DatabaseHelper dbHelper = BM.getInstance(null).getDbHelper();
 
-		boolean hasPosts = false;//dbHelper.hasPosts();
+		boolean hasPosts = dbHelper.hasMusicPosts();
 		if (forceLoad || !hasPosts) {
 			publishProgress(30);
 
@@ -42,14 +42,14 @@ public class MusicArticlesLoader extends AsyncTask<Void, Integer, Void> {
 
 			publishProgress(70);
 
-			//if (hasPosts)
-			//	dbHelper.clearPosts();
-			//dbHelper.insertPosts(posts);
+			if (hasPosts)
+				dbHelper.clearMusicPosts();
+			dbHelper.insertMusicPosts(posts);
 		} else {
 			publishProgress(30);
 
 			this.posts.clear();
-			//this.posts.addAll(dbHelper.getPosts());
+			this.posts.addAll(dbHelper.getMusicPosts());
 		}
 
 		this.progressListener.onProgress(100, 100);

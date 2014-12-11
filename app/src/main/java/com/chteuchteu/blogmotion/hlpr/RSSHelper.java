@@ -48,7 +48,7 @@ public class RSSHelper {
 		try {
 			SimpleDateFormat dfGMT = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH);
 			dfGMT.parse(gmtDate);
-			SimpleDateFormat dfFrench = new SimpleDateFormat("d/MM", Locale.FRANCE);
+			SimpleDateFormat dfFrench = new SimpleDateFormat("d MMM", Locale.FRANCE);
 			return dfFrench.format(dfGMT.getCalendar().getTime());
 		} catch (ParseException ex) {
 			ex.printStackTrace();
