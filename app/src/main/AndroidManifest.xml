@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.chteuchteu.blogmotion" >
 
-	<uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -20,14 +20,22 @@
         </activity>
         <activity
             android:name=".ui.PostDetailActivity"
+            android:hardwareAccelerated="true"
             android:label="@string/title_post_detail"
-			android:hardwareAccelerated="true"
             android:parentActivityName=".ui.PostListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".PostListActivity" />
         </activity>
-        <meta-data android:name="com.crashlytics.ApiKey" android:value="b7bc84aa870bd35d3de03f69309f1748a52354a4"/>
+
+        <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="b7bc84aa870bd35d3de03f69309f1748a52354a4" />
+
+        <activity
+            android:name=".ui.MusicMotionActivity"
+            android:label="@string/title_activity_music_motion" >
+        </activity>
     </application>
 
 </manifest>

@@ -4,8 +4,10 @@ import android.content.Context;
 import android.util.Log;
 
 import com.chteuchteu.blogmotion.at.ArticlesLoader;
+import com.chteuchteu.blogmotion.at.MusicArticlesLoader;
 import com.chteuchteu.blogmotion.hlpr.DatabaseHelper;
 import com.chteuchteu.blogmotion.hlpr.Util;
+import com.chteuchteu.blogmotion.obj.MusicPost;
 import com.chteuchteu.blogmotion.obj.Post;
 
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ public class BM {
 	private static BM instance;
 
 	private List<Post> posts;
+	private List<MusicPost> musicPosts;
 	private DatabaseHelper dbHelper;
 
 	private BM(Context context) {
@@ -25,7 +28,8 @@ public class BM {
 
 	private void loadInstance(Context context) {
 		this.dbHelper = new DatabaseHelper(context);
-		this.posts = new ArrayList<Post>();
+		this.posts = new ArrayList<>();
+		this.musicPosts = new ArrayList<>();
 	}
 
 	public static synchronized BM getInstance(Context context) {
@@ -43,8 +47,14 @@ public class BM {
 		return null;
 	}
 
+	public List<MusicPost> getMusicPosts() { return musicPosts; }
+
 	public void loadArticles(Util.ProgressListener progressListener, boolean forceLoad) {
 		new ArticlesLoader(posts, progressListener, forceLoad).execute();
+	}
+
+	public void loadMusicArticles(Util.ProgressListener progressListener, boolean forceLoad) {
+		new MusicArticlesLoader(musicPosts, progressListener, forceLoad).execute();
 	}
 
 	public DatabaseHelper getDbHelper() { return this.dbHelper; }
