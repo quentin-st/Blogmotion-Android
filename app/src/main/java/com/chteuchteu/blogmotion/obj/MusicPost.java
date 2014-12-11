@@ -1,5 +1,7 @@
 package com.chteuchteu.blogmotion.obj;
 
+import android.graphics.Bitmap;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -10,6 +12,8 @@ public class MusicPost {
 	private String link;
 	private String pubDate;
 	private MusicPostType type;
+
+	private Bitmap previewImage;
 
 	public enum MusicPostType { YOUTUBE, SOUNDCLOUD }
 
@@ -39,6 +43,10 @@ public class MusicPost {
 
 	public MusicPostType getType() { return type; }
 	public void setType(MusicPostType type) { this.type = type; }
+
+	public Bitmap getPreviewImage() { return previewImage; }
+	public void setPreviewImage(Bitmap previewImage) { this.previewImage = previewImage; }
+	public boolean hasPreviewImage() { return this.previewImage != null; }
 
 	public MusicPostType detectPostType() {
 		return this.description.contains("youtube") ? MusicPost.MusicPostType.YOUTUBE : MusicPost.MusicPostType.SOUNDCLOUD;

@@ -1,27 +1,22 @@
 package com.chteuchteu.blogmotion.ui;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.chteuchteu.blogmotion.BM;
 import com.chteuchteu.blogmotion.R;
-import com.chteuchteu.blogmotion.at.YoutubePreviewLoader;
+import com.chteuchteu.blogmotion.adptr.MusicListAdapter;
 import com.chteuchteu.blogmotion.hlpr.Util;
-import com.chteuchteu.blogmotion.obj.MusicPost;
 
 public class MusicMotionActivity extends BMActivity {
 	private ListView listView;
 	private ProgressBar progressBar;
-	private ArrayAdapter<MusicPost> adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,22 +69,9 @@ public class MusicMotionActivity extends BMActivity {
 	}
 
 	private void refreshList() {
-		this.adapter = new ArrayAdapter<>(
-				this,
-				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1,
-				BM.getInstance(context).getMusicPosts());
+		MusicListAdapter adapter = new MusicListAdapter(this, BM.getInstance(context).getMusicPosts());
 
 		this.listView.setAdapter(adapter);
-
-		// Load bitmap for each item
-		for (MusicPost musicPost : BM.getInstance(context).getMusicPosts())
-			new YoutubePreviewLoader(musicPost, new YoutubePreviewLoader.YoutubePreviewLoaderListener() {
-				@Override
-				public void onPostExecute(Bitmap downloadedBitmap) {
-					// TODO
-				}
-			}).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
 	@Override

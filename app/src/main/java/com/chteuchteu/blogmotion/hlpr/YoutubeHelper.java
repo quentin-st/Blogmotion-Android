@@ -7,9 +7,9 @@ public class YoutubeHelper {
 
 	public static String getVideoId(String videoUrl) {
 		// Youtube URL should be https://www.youtube.com/embed/VMp2-VO1wvc?feature=oembed
-		String leftConcat = videoUrl.substring(videoUrl.lastIndexOf('/'));
+		String leftConcat = videoUrl.substring(videoUrl.lastIndexOf('/')+1);
 		if (leftConcat.contains("?"))
-			return leftConcat.substring(0, leftConcat.lastIndexOf('/'));
+			return leftConcat.substring(0, leftConcat.lastIndexOf('?'));
 		else
 			return leftConcat;
 	}
