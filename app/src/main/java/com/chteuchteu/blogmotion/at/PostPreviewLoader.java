@@ -4,30 +4,29 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
-import com.chteuchteu.blogmotion.hlpr.YoutubeHelper;
-import com.chteuchteu.blogmotion.obj.MusicPost;
+import com.chteuchteu.blogmotion.obj.Post;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class YoutubePreviewLoader extends AsyncTask<Void, Integer, Void> {
-	private MusicPost musicPost;
+public class PostPreviewLoader extends AsyncTask<Void, Integer, Void> {
+	private Post post;
+	private PostPreviewLoaderListener ppll;
 	private Bitmap downloadedBitmap;
-	private YoutubePreviewLoaderListener ypll;
 
-	public YoutubePreviewLoader(MusicPost musicPost, YoutubePreviewLoaderListener ypll) {
-		this.musicPost = musicPost;
-		this.ypll = ypll;
+	public PostPreviewLoader(Post post, PostPreviewLoaderListener ppll) {
+		this.post = post;
+		this.ppll = ppll;
 	}
 
 	@Override
 	protected Void doInBackground(Void... arg0) {
-		if (this.musicPost.getType() != MusicPost.MusicPostType.YOUTUBE)
-			return null;
+		String imageUrl = post.getImageUrl();
 
-		String imageUrl = YoutubeHelper.getPreviewImageUrl(musicPost.getTargetUrl());
+		if (imageUrl.equals(""))
+			return null;
 
 		try {
 			URL url = new URL(imageUrl);
@@ -48,11 +47,10 @@ public class YoutubePreviewLoader extends AsyncTask<Void, Integer, Void> {
 
 	@Override
 	protected void onPostExecute(Void result) {
-		this.ypll.onPostExecute(this.downloadedBitmap);
+		this.ppll.onPostExecute(this.downloadedBitmap);
 	}
 
-
-	public static interface YoutubePreviewLoaderListener {
+	public static interface PostPreviewLoaderListener {
 		public void onPostExecute(Bitmap downloadedBitmap);
 	}
 }

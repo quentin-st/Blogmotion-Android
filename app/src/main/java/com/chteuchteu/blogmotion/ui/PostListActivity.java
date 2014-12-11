@@ -4,22 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.chteuchteu.blogmotion.BM;
 import com.chteuchteu.blogmotion.R;
+import com.chteuchteu.blogmotion.adptr.PostsListAdapter;
 import com.chteuchteu.blogmotion.hlpr.Util;
 import com.crashlytics.android.Crashlytics;
 
-public class PostListActivity extends BMActivity implements PostListFragment.Callbacks {
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
-    private boolean mTwoPane;
-
+public class PostListActivity extends BMActivity {
 	private ProgressBar progressBar;
 	private boolean refreshing;
+	private PostsListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,28 +28,26 @@ public class PostListActivity extends BMActivity implements PostListFragment.Cal
 	    // Init BM
 	    BM.getInstance(this);
 
-        if (findViewById(R.id.post_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-large and
-            // res/values-sw600dp). If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
-
-            // In two-pane mode, list items should be given the
-            // 'activated' state when touched.
-            ((PostListFragment) getFragmentManager()
-                    .findFragmentById(R.id.post_list))
-                    .setActivateOnItemClick(true);
-        }
-
-        // TODO: If exposing deep links into your app, handle intents here.
-
 	    this.menuRes = R.menu.postlist;
 
 	    super.afterOnCreate();
 
 	    this.progressBar = Util.prepareGmailStyleProgressBar(this, this.actionBar);
 	    fetchArticles(false);
+
+	    this.adapter = new PostsListAdapter((LinearLayout) findViewById(R.id.list_container), this.context);
+	    this.adapter.setOnItemSelected(new PostsListAdapter.OnItemSelected() {
+		    @Override
+		    public void onItemSelected(int itemId) {
+			    long id = BM.getInstance(context).getPosts().get(itemId).getId();
+
+			    Intent detailIntent = new Intent(context, PostDetailActivity.class);
+			    detailIntent.putExtra(PostDetailFragment.ARG_ITEM_ID, id);
+			    startActivity(detailIntent);
+			    Util.setTransition(context, Util.TransitionStyle.DEEPER);
+		    }
+	    });
+	    this.adapter.inflate(BM.getInstance(context).getPosts());
     }
 
 	public void fetchArticles(boolean forceLoad) {
@@ -60,6 +55,12 @@ public class PostListActivity extends BMActivity implements PostListFragment.Cal
 			return;
 
 		refreshing = true;
+
+		// Disappear animation
+		if (!BM.getInstance(context).getPosts().isEmpty()) {
+			final LinearLayout container = (LinearLayout) findViewById(R.id.list_container);
+			container.removeAllViews();
+		}
 
 		// Load articles on first launch
 		if (BM.getInstance(context).getPosts().isEmpty() || forceLoad)
@@ -80,7 +81,7 @@ public class PostListActivity extends BMActivity implements PostListFragment.Cal
 
 				@Override
 				public void onPostExecute() {
-					((PostListFragment) getFragmentManager().findFragmentById(R.id.post_list)).refreshList();
+					adapter.inflate(BM.getInstance(context).getPosts());
 					progressBar.setProgress(0);
 					progressBar.setVisibility(View.GONE);
 					refreshing = false;
@@ -97,31 +98,4 @@ public class PostListActivity extends BMActivity implements PostListFragment.Cal
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-    /**
-     * Callback method from {@link PostListFragment.Callbacks}
-     * indicating that the item with the given ID was selected.
-     */
-    @Override
-    public void onItemSelected(long id) {
-        if (mTwoPane) {
-            // In two-pane mode, show the detail view in this activity by
-            // adding or replacing the detail fragment using a
-            // fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putLong(PostDetailFragment.ARG_ITEM_ID, id);
-            PostDetailFragment fragment = new PostDetailFragment();
-            fragment.setArguments(arguments);
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.post_detail_container, fragment)
-                    .commit();
-        } else {
-            // In single-pane mode, simply start the detail activity
-            // for the selected item ID.
-            Intent detailIntent = new Intent(this, PostDetailActivity.class);
-            detailIntent.putExtra(PostDetailFragment.ARG_ITEM_ID, id);
-            startActivity(detailIntent);
-	        Util.setTransition(context, Util.TransitionStyle.DEEPER);
-        }
-    }
 }

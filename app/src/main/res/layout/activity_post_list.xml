@@ -2,7 +2,8 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical"
-	android:fitsSystemWindows="true">
+	android:fitsSystemWindows="true"
+	android:background="@color/statusBarColor">
 
 	<include layout="@layout/incl_toolbar" />
 
@@ -13,22 +14,23 @@
 		android:fitsSystemWindows="true">
 
 		<LinearLayout
-			xmlns:tools="http://schemas.android.com/tools"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:orientation="vertical"
 			android:fitsSystemWindows="true">
 
-			<fragment
-				android:id="@+id/post_list"
-				android:name="com.chteuchteu.blogmotion.ui.PostListFragment"
+			<ScrollView
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:layout_marginLeft="16dp"
-				android:layout_marginRight="16dp"
-				tools:context=".PostListActivity"
-				tools:layout="@android:layout/list_content" />
+				android:layout_height="match_parent">
 
+				<LinearLayout
+					android:id="@+id/list_container"
+					android:orientation="vertical"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="1dp"/>
+
+			</ScrollView>
 		</LinearLayout>
 
 		<include layout="@layout/drawer" />

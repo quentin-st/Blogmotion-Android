@@ -10,11 +10,6 @@ import com.chteuchteu.blogmotion.R;
 import com.chteuchteu.blogmotion.hlpr.Util;
 import com.chteuchteu.blogmotion.obj.Post;
 
-
-/**
- * This activity is mostly just a 'shell' activity containing nothing
- * more than a {@link com.chteuchteu.blogmotion.ui.PostDetailFragment}.
- */
 public class PostDetailActivity extends BMActivity {
 	private long postId;
 	private Post post;
@@ -25,9 +20,6 @@ public class PostDetailActivity extends BMActivity {
         setContentView(R.layout.activity_post_detail);
 
 	    this.context = this;
-
-        // Show the Up button in the action bar.
-        //getActionBar().setDisplayHomeAsUpEnabled(true);
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
