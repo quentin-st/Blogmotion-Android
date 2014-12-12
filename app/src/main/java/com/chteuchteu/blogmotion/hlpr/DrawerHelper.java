@@ -7,47 +7,37 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.chteuchteu.blogmotion.R;
+import com.chteuchteu.blogmotion.adptr.DrawerAdapter;
 import com.chteuchteu.blogmotion.ui.MusicMotionActivity;
+import com.chteuchteu.blogmotion.ui.PostListActivity;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.List;
 
 public class DrawerHelper {
 	private Context context;
 	private DrawerLayout drawerLayout;
-	private View drawerView;
 	private boolean isDrawerOpened;
-	private ListView listView;
+	private DrawerAdapter drawerAdapter;
 
-	private static final String[] listViewItems = { "MusicMotion" };
-
-	public DrawerHelper(Activity activity, final Context context) {
+	public DrawerHelper(Activity activity, final Context context, Class currentActivity) {
 		this.drawerLayout = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
-		this.drawerView = activity.findViewById(R.id.drawer);
+		View drawerView = activity.findViewById(R.id.drawer);
 		this.context = context;
 
-		setPadding();
-
 		// Init list
-		this.listView = (ListView) this.drawerView.findViewById(R.id.listview);
-		final ArrayList<String> list = new ArrayList<String>();
-		Collections.addAll(list, listViewItems);
-		final ArrayAdapter adapter = new ArrayAdapter(context,
-				android.R.layout.simple_list_item_1, list);
-		listView.setAdapter(adapter);
+		ListView listView = (ListView) drawerView.findViewById(R.id.listview);
+
+		List<DrawerItem> drawerItems = getDrawerItems(currentActivity);
+		this.drawerAdapter = new DrawerAdapter(context, drawerItems);
+		listView.setAdapter(this.drawerAdapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-				switch (i) {
-					case 0:
-						context.startActivity(new Intent(context, MusicMotionActivity.class));
-						Util.setTransition(context, Util.TransitionStyle.DEEPER);
-						break;
-				}
+				drawerAdapter.getItems().get(i).getClickListener().onClick();
 			}
 		});
 	}
@@ -59,21 +49,53 @@ public class DrawerHelper {
 			drawerLayout.openDrawer(Gravity.LEFT);
 	}
 
-	/**
-	 * Set drawer top padding
-	 */
-	private void setPadding() {
-		if (Util.isStatusBarTransparencyAvailable(context))
-			this.drawerView.setPadding(
-					this.drawerView.getPaddingLeft(),
-					Util.getStatusBarHeight(context),
-					this.drawerView.getPaddingRight(),
-					this.drawerView.getPaddingBottom());
-	}
-
 	public void setDrawerListener(DrawerLayout.DrawerListener listener) {
 		this.drawerLayout.setDrawerListener(listener);
 	}
 	public boolean isDrawerOpened() { return this.isDrawerOpened; }
 	public void setDrawerOpened(boolean val) { this.isDrawerOpened = val; }
+
+	public class DrawerItem {
+		private int titleRes;
+		private int iconRes;
+		private OnDrawerItemClick clickListener;
+		private boolean active;
+
+		public DrawerItem(int titleRes, int iconRes, OnDrawerItemClick clickListener, boolean active) {
+			this.titleRes = titleRes;
+			this.iconRes = iconRes;
+			this.clickListener = clickListener;
+			this.active = active;
+		}
+
+		public int getTitleRes() { return titleRes; }
+		public int getIconRes() { return iconRes; }
+		public OnDrawerItemClick getClickListener() { return clickListener; }
+		public boolean isActive() { return this.active; }
+	}
+	public interface OnDrawerItemClick { public void onClick(); }
+
+	private List<DrawerItem> getDrawerItems(Class currentActivity) {
+		List<DrawerItem> drawerItems = new ArrayList<>();
+
+		// Articles
+		drawerItems.add(new DrawerItem(R.string.articles, R.drawable.ic_articles, new OnDrawerItemClick() {
+			@Override
+			public void onClick() {
+				context.startActivity(new Intent(context, PostListActivity.class));
+				Util.setTransition(context, Util.TransitionStyle.DEEPER);
+			}
+		}, currentActivity == PostListActivity.class));
+
+		// Musicmotion
+		drawerItems.add(new DrawerItem(R.string.musicmotion, R.drawable.ic_musicmotion, new OnDrawerItemClick() {
+			@Override
+			public void onClick() {
+				context.startActivity(new Intent(context, MusicMotionActivity.class));
+				Util.setTransition(context, Util.TransitionStyle.DEEPER);
+			}
+		}, currentActivity == MusicMotionActivity.class));
+
+		return drawerItems;
+	}
 }

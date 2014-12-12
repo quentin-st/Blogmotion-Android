@@ -47,6 +47,7 @@ public class PostDetailActivity extends BMActivity {
         }
 
 	    this.menuRes = R.menu.postdetail;
+	    this.currentActivity = PostDetailActivity.class;
 
 
 	    super.afterOnCreate();

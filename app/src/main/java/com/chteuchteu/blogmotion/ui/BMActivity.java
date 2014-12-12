@@ -32,6 +32,8 @@ public class BMActivity extends ActionBarActivity {
 
 	private DrawerHelper drawerHelper;
 
+	protected Class currentActivity;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,7 +69,7 @@ public class BMActivity extends ActionBarActivity {
 		};
 		this.materialMenu.setNeverDrawTouch(true);
 
-		this.drawerHelper = new DrawerHelper(this, this);
+		this.drawerHelper = new DrawerHelper(this, this, currentActivity);
 	}
 
 	protected void createOptionsMenu() {

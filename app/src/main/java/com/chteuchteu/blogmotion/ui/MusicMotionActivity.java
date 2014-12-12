@@ -26,6 +26,7 @@ public class MusicMotionActivity extends BMActivity {
 		setContentView(R.layout.activity_musicmotion);
 
 		this.menuRes = R.menu.menu_musicmotion;
+		this.currentActivity = MusicMotionActivity.class;
 
 		this.listView = (ListView) findViewById(R.id.listview);
 		this.progressBar = Util.prepareGmailStyleProgressBar(this, this.actionBar);

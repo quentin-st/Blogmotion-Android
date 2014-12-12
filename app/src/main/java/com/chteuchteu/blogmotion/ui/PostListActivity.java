@@ -29,6 +29,7 @@ public class PostListActivity extends BMActivity {
 	    BM.getInstance(this);
 
 	    this.menuRes = R.menu.postlist;
+	    this.currentActivity = PostListActivity.class;
 
 	    super.afterOnCreate();
 
