@@ -36,6 +36,10 @@
             android:name=".ui.MusicMotionActivity"
             android:label="@string/musicmotion" >
         </activity>
+        <activity
+            android:name=".ui.AboutActivity"
+            android:label="@string/about" >
+        </activity>
     </application>
 
 </manifest>

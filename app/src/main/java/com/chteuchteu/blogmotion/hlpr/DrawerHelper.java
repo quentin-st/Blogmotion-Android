@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.chteuchteu.blogmotion.R;
 import com.chteuchteu.blogmotion.adptr.DrawerAdapter;
+import com.chteuchteu.blogmotion.ui.AboutActivity;
 import com.chteuchteu.blogmotion.ui.MusicMotionActivity;
 import com.chteuchteu.blogmotion.ui.PostListActivity;
 
@@ -95,6 +96,15 @@ public class DrawerHelper {
 				Util.setTransition(context, Util.TransitionStyle.DEEPER);
 			}
 		}, currentActivity == MusicMotionActivity.class));
+
+		// About
+		drawerItems.add(new DrawerItem(R.string.about, R.drawable.ic_about, new OnDrawerItemClick() {
+			@Override
+			public void onClick() {
+				context.startActivity(new Intent(context, AboutActivity.class));
+				Util.setTransition(context, Util.TransitionStyle.DEEPER);
+			}
+		}, currentActivity == AboutActivity.class));
 
 		return drawerItems;
 	}
