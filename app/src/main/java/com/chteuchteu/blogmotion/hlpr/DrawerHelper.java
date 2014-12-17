@@ -14,6 +14,7 @@ import com.chteuchteu.blogmotion.adptr.DrawerAdapter;
 import com.chteuchteu.blogmotion.ui.AboutActivity;
 import com.chteuchteu.blogmotion.ui.MusicMotionActivity;
 import com.chteuchteu.blogmotion.ui.PostListActivity;
+import com.chteuchteu.blogmotion.ui.TwitterActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +97,15 @@ public class DrawerHelper {
 				Util.setTransition(context, Util.TransitionStyle.DEEPER);
 			}
 		}, currentActivity == MusicMotionActivity.class));
+
+		// Tweeter
+		drawerItems.add(new DrawerItem(R.string.twitter, R.drawable.ic_action_communication, new OnDrawerItemClick() {
+			@Override
+			public void onClick() {
+				context.startActivity(new Intent(context, TwitterActivity.class));
+				Util.setTransition(context, Util.TransitionStyle.DEEPER);
+			}
+		}, currentActivity == TwitterActivity.class));
 
 		// About
 		drawerItems.add(new DrawerItem(R.string.about, R.drawable.ic_about, new OnDrawerItemClick() {
