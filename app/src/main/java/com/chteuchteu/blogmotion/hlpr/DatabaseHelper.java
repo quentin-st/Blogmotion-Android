@@ -4,10 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.chteuchteu.blogmotion.obj.MusicPost;
 import com.chteuchteu.blogmotion.obj.Post;
+import com.crashlytics.android.Crashlytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -186,10 +188,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	public boolean hasPosts() {
-		return GenericQueries.getNbLines(this, TABLE_POSTS, "") > 0;
+		try {
+			return GenericQueries.getNbLines(this, TABLE_POSTS, "") > 0;
+		} catch (SQLiteException ex) {
+			ex.printStackTrace();
+			Crashlytics.logException(ex);
+			return false;
+		}
 	}
 	public boolean hasMusicPosts() {
-		return GenericQueries.getNbLines(this, TABLE_MUSICPOSTS, "") > 0;
+		try {
+			return GenericQueries.getNbLines(this, TABLE_MUSICPOSTS, "") > 0;
+		} catch (SQLiteException ex) {
+			ex.printStackTrace();
+			Crashlytics.logException(ex);
+			return false;
+		}
 	}
 
 	public static class GenericQueries {
