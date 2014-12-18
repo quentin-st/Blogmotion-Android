@@ -43,8 +43,13 @@ public class DrawerAdapter extends ArrayAdapter<DrawerHelper.DrawerItem> {
 			icon.setImageResource(drawerItem.getIconRes());
 		text.setText(drawerItem.getTitleRes());
 
-		if (drawerItem.isActive())
+		if (drawerItem.isActive()) {
 			row.setBackgroundResource(R.color.drawer_selectedcolor);
+
+			int tintColor = context.getResources().getColor(R.color.tintColor);
+			text.setTextColor(tintColor);
+			icon.setColorFilter(tintColor);
+		}
 
 		return rowView;
 	}
