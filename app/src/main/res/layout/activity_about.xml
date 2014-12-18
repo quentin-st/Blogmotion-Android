@@ -16,12 +16,23 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:orientation="vertical"
+			android:gravity="center_vertical|center_horizontal"
 			android:fitsSystemWindows="true">
 
-			<WebView
-				android:id="@+id/wv"
+			<TextView
+				android:id="@+id/textView"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent" />
+				android:layout_height="wrap_content"
+				android:layout_margin="20dp"
+				android:textSize="16sp"
+				android:text="@string/about_text"
+				android:layout_marginBottom="20dp"/>
+
+			<Button
+				android:id="@+id/button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/about_more"/>
 
 		</LinearLayout>
 

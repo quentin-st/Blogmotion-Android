@@ -13,8 +13,7 @@ public class TwitterActivity extends BMActivity {
 
 	private static final String baseURl = "https://twitter.com";
 
-	private static final String widgetInfo = "<a class=\"twitter-timeline\" href=\"https://twitter.com/search?q=%23xhark\" data-widget-id=\"394415351972114432\">Tweets about \"#xhark" +
-			"\"</a> " +
+	private static final String widgetInfo = "<a class=\"twitter-timeline\" href=\"https://twitter.com/xhark\" data-widget-id=\"454396732567076865\">Tweets de @xhark</a>\n" +
 			"<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+\"://platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>";
 
 	@Override
