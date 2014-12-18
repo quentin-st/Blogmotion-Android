@@ -1,16 +1,19 @@
 package com.chteuchteu.blogmotion.hlpr;
 
+import com.chteuchteu.blogmotion.BM;
+
 public class YoutubeHelper {
 	public static String getPreviewImageUrl(String videoUrl) {
-		return "https://img.youtube.com/vi/" + getVideoId(videoUrl) + "/0.jpg";
+		String videoId = getVideoId(videoUrl);
+		BM.log("Got video id " + videoId + " from URL " + videoUrl);
+		return "https://img.youtube.com/vi/" + videoId + "/0.jpg";
 	}
 
 	public static String getVideoId(String videoUrl) {
-		// Youtube URL should be https://www.youtube.com/embed/VMp2-VO1wvc?feature=oembed
-		String leftConcat = videoUrl.substring(videoUrl.lastIndexOf('/')+1);
-		if (leftConcat.contains("?"))
-			return leftConcat.substring(0, leftConcat.lastIndexOf('?'));
+		// Youtube URL should be https://www.youtube.com/embed/ajvMEgA1x8o?feature=oembed&enablejsapi=1&origin=http://safe.txmblr.com&wmode=opaque
+		if (videoUrl.contains("?"))
+			return videoUrl.substring("https://www.youtube.com/embed/".length(), videoUrl.indexOf('?'));
 		else
-			return leftConcat;
+			return videoUrl.substring("https://www.youtube.com/embed/".length());
 	}
 }
