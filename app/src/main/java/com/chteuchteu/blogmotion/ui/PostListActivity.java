@@ -11,11 +11,15 @@ import com.chteuchteu.blogmotion.BM;
 import com.chteuchteu.blogmotion.R;
 import com.chteuchteu.blogmotion.adptr.PostsListAdapter;
 import com.chteuchteu.blogmotion.hlpr.Util;
+import com.chteuchteu.blogmotion.obj.Post;
 import com.crashlytics.android.Crashlytics;
+
+import java.util.List;
 
 public class PostListActivity extends BMActivity {
 	private ProgressBar progressBar;
 	private boolean refreshing;
+	private LinearLayout postsContainer;
 	private PostsListAdapter adapter;
 
     @Override
@@ -30,6 +34,7 @@ public class PostListActivity extends BMActivity {
 
 	    this.menuRes = R.menu.postlist;
 	    this.currentActivity = PostListActivity.class;
+	    this.postsContainer = (LinearLayout) findViewById(R.id.list_container);
 
 	    super.afterOnCreate();
 
@@ -57,32 +62,52 @@ public class PostListActivity extends BMActivity {
 
 		refreshing = true;
 
-		// Disappear animation
-		if (!BM.getInstance(context).getPosts().isEmpty()) {
-			final LinearLayout container = (LinearLayout) findViewById(R.id.list_container);
-			container.removeAllViews();
-		}
-
-		// Load articles on first launch
+		// Load articles on first launch (or if forceload)
 		if (BM.getInstance(context).getPosts().isEmpty() || forceLoad)
 			BM.getInstance(context).loadArticles(new Util.ProgressListener() {
+				private long lastArticleId;
+
 				@Override
 				public void onPreExecute() {
 					progressBar.setProgress(0);
 					progressBar.setVisibility(View.VISIBLE);
 					progressBar.setIndeterminate(true);
+
+					List<Post> articles = BM.getInstance(context).getPosts();
+					if (articles.size() > 0)
+						this.lastArticleId = articles.get(articles.size() - 1).getId();
+					else
+						this.lastArticleId = -1;
+
+					Util.setViewAlpha(postsContainer, 0.7f);
 				}
 
 				@Override
 				public void onProgress(int progress, int total) {
-					progressBar.setIndeterminate(false);
+					if (progressBar.isIndeterminate())
+						progressBar.setIndeterminate(false);
 					progressBar.setProgress(progress);
 					progressBar.setMax(total);
 				}
 
 				@Override
 				public void onPostExecute() {
-					adapter.inflate(BM.getInstance(context).getPosts());
+					// Find lastArticleId and compare it (see if there has been any changes)
+					List<Post> articles = BM.getInstance(context).getPosts();
+
+					long lastArticleId = -1;
+					if (articles.size() > 0)
+						lastArticleId = articles.get(articles.size() - 1).getId();
+
+					boolean newArticles = this.lastArticleId != lastArticleId;
+					if (newArticles) {
+						BM.log("Removing postsContainer child views");
+						postsContainer.removeAllViews();
+						adapter.inflate(BM.getInstance(context).getPosts());
+					}
+
+					Util.setViewAlpha(postsContainer, 1f);
+
 					progressBar.setProgress(0);
 					progressBar.setVisibility(View.GONE);
 					refreshing = false;

@@ -1,11 +1,8 @@
 package com.chteuchteu.blogmotion.hlpr;
 
-import com.chteuchteu.blogmotion.BM;
-
 public class YoutubeHelper {
 	public static String getPreviewImageUrl(String videoUrl) {
 		String videoId = getVideoId(videoUrl);
-		BM.log("Got video id " + videoId + " from URL " + videoUrl);
 		return "https://img.youtube.com/vi/" + videoId + "/0.jpg";
 	}
 

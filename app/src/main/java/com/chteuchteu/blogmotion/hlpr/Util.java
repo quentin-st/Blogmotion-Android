@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -141,5 +142,12 @@ public class Util {
 				((Activity) context).overridePendingTransition(R.anim.shallower_in, R.anim.shallower_out);
 				break;
 		}
+	}
+
+	public static void setViewAlpha(View view, float alpha) {
+		AlphaAnimation alphaAnim = new AlphaAnimation(alpha, alpha);
+		alphaAnim.setDuration(0);
+		alphaAnim.setFillAfter(true);
+		view.startAnimation(alphaAnim);
 	}
 }
