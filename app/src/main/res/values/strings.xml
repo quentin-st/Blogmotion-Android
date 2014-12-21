@@ -12,5 +12,6 @@
     <string name="twitter">Twitter</string>
 	<string name="about_text">Blogmotion est un blog libre et indépendant. Décryptage, tutoriels, tests produits, actualité.</string>
 	<string name="about_more">En savoir plus</string>
+	<string name="firstLaunch">Veuillez patienter pendant le premier chargement des articles</string>
 
 </resources>

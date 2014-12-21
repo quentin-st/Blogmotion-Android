@@ -2,6 +2,7 @@ package com.chteuchteu.blogmotion.hlpr;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -23,6 +24,32 @@ public class Util {
 		public void onPreExecute();
 		public void onProgress(int progress, int total);
 		public void onPostExecute();
+	}
+
+	public static String getPref(Context context, String key) {
+		return context.getSharedPreferences("user_pref", Context.MODE_PRIVATE).getString(key, "");
+	}
+
+	public static void setPref(Context context, String key, String value) {
+		if (value.equals(""))
+			removePref(context, key);
+		else {
+			SharedPreferences prefs = context.getSharedPreferences("user_pref", Context.MODE_PRIVATE);
+			SharedPreferences.Editor editor = prefs.edit();
+			editor.putString(key, value);
+			editor.apply();
+		}
+	}
+
+	public static void removePref(Context context, String key) {
+		SharedPreferences prefs = context.getSharedPreferences("user_pref", Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.remove(key);
+		editor.apply();
+	}
+
+	public static boolean hasPref(Context context, String key) {
+		return context.getSharedPreferences("user_pref", Context.MODE_PRIVATE).contains(key);
 	}
 
 	public static int getStatusBarHeight(Context c) {

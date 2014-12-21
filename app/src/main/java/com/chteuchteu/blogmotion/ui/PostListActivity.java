@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.chteuchteu.blogmotion.BM;
 import com.chteuchteu.blogmotion.R;
@@ -60,6 +61,11 @@ public class PostListActivity extends BMActivity {
 	    this.adapter.inflate(BM.getInstance(context).getPosts());
 
 	    fetchArticles(false);
+
+	    if (!Util.hasPref(this, "firstLaunch")) {
+		    Toast.makeText(this, R.string.firstLaunch, Toast.LENGTH_LONG).show();
+		    Util.setPref(this, "firstLaunch", "false");
+	    }
     }
 
 	public void fetchArticles(boolean forceLoad) {
