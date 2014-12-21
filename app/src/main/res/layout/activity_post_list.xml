@@ -20,18 +20,24 @@
 			android:orientation="vertical"
 			android:fitsSystemWindows="true">
 
-			<ScrollView
+			<android.support.v4.widget.SwipeRefreshLayout
+				android:id="@+id/swipeRefreshLayout"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent">
 
-				<LinearLayout
-					android:id="@+id/list_container"
-					android:orientation="vertical"
+				<ScrollView
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:padding="1dp"/>
+					android:layout_height="match_parent">
 
-			</ScrollView>
+					<LinearLayout
+						android:id="@+id/list_container"
+						android:orientation="vertical"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:padding="1dp"/>
+
+				</ScrollView>
+			</android.support.v4.widget.SwipeRefreshLayout>
 		</LinearLayout>
 
 		<include layout="@layout/drawer" />

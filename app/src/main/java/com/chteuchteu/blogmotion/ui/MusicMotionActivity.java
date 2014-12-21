@@ -3,11 +3,11 @@ package com.chteuchteu.blogmotion.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
 import com.chteuchteu.blogmotion.BM;
 import com.chteuchteu.blogmotion.R;
@@ -16,7 +16,7 @@ import com.chteuchteu.blogmotion.hlpr.Util;
 
 public class MusicMotionActivity extends BMActivity {
 	private ListView listView;
-	private ProgressBar progressBar;
+	private SwipeRefreshLayout swipeRefreshLayout;
 
 	private boolean refreshing;
 
@@ -29,11 +29,16 @@ public class MusicMotionActivity extends BMActivity {
 		this.currentActivity = MusicMotionActivity.class;
 
 		this.listView = (ListView) findViewById(R.id.listview);
-		this.progressBar = Util.prepareGmailStyleProgressBar(this, this.actionBar);
 
 		super.afterOnCreate();
 
-		loadArticles(true);
+		this.swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+		this.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				loadArticles(true);
+			}
+		});
 
 		this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -44,6 +49,8 @@ public class MusicMotionActivity extends BMActivity {
 			}
 		});
 		this.listView.setScrollingCacheEnabled(false);
+
+		loadArticles(true);
 	}
 
 	private void loadArticles(boolean forceLoad) {
@@ -56,23 +63,16 @@ public class MusicMotionActivity extends BMActivity {
 			BM.getInstance(context).loadMusicArticles(new Util.ProgressListener() {
 				@Override
 				public void onPreExecute() {
-					progressBar.setProgress(0);
-					progressBar.setVisibility(View.VISIBLE);
-					progressBar.setIndeterminate(true);
+					swipeRefreshLayout.setRefreshing(true);
 				}
 
 				@Override
-				public void onProgress(int progress, int total) {
-					progressBar.setIndeterminate(false);
-					progressBar.setProgress(progress);
-					progressBar.setMax(total);
-				}
+				public void onProgress(int progress, int total) { }
 
 				@Override
 				public void onPostExecute() {
 					refreshList();
-					progressBar.setProgress(0);
-					progressBar.setVisibility(View.GONE);
+					swipeRefreshLayout.setRefreshing(false);
 					refreshing = false;
 				}
 			}, forceLoad);

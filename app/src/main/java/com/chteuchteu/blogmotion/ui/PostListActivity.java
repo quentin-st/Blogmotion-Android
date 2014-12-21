@@ -2,10 +2,9 @@ package com.chteuchteu.blogmotion.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
 import com.chteuchteu.blogmotion.BM;
 import com.chteuchteu.blogmotion.R;
@@ -17,10 +16,10 @@ import com.crashlytics.android.Crashlytics;
 import java.util.List;
 
 public class PostListActivity extends BMActivity {
-	private ProgressBar progressBar;
 	private boolean refreshing;
 	private LinearLayout postsContainer;
 	private PostsListAdapter adapter;
+	private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +37,13 @@ public class PostListActivity extends BMActivity {
 
 	    super.afterOnCreate();
 
-	    this.progressBar = Util.prepareGmailStyleProgressBar(this, this.actionBar);
-	    fetchArticles(false);
+	    this.swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+	    this.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+		    @Override
+		    public void onRefresh() {
+			    fetchArticles(true);
+		    }
+	    });
 
 	    this.adapter = new PostsListAdapter((LinearLayout) findViewById(R.id.list_container), this.context);
 	    this.adapter.setOnItemSelected(new PostsListAdapter.OnItemSelected() {
@@ -54,6 +58,8 @@ public class PostListActivity extends BMActivity {
 		    }
 	    });
 	    this.adapter.inflate(BM.getInstance(context).getPosts());
+
+	    fetchArticles(false);
     }
 
 	public void fetchArticles(boolean forceLoad) {
@@ -69,9 +75,7 @@ public class PostListActivity extends BMActivity {
 
 				@Override
 				public void onPreExecute() {
-					progressBar.setProgress(0);
-					progressBar.setVisibility(View.VISIBLE);
-					progressBar.setIndeterminate(true);
+					swipeRefreshLayout.setRefreshing(true);
 
 					List<Post> articles = BM.getInstance(context).getPosts();
 					if (articles.size() > 0)
@@ -83,12 +87,7 @@ public class PostListActivity extends BMActivity {
 				}
 
 				@Override
-				public void onProgress(int progress, int total) {
-					if (progressBar.isIndeterminate())
-						progressBar.setIndeterminate(false);
-					progressBar.setProgress(progress);
-					progressBar.setMax(total);
-				}
+				public void onProgress(int progress, int total) { }
 
 				@Override
 				public void onPostExecute() {
@@ -108,8 +107,7 @@ public class PostListActivity extends BMActivity {
 
 					Util.setViewAlpha(postsContainer, 1f);
 
-					progressBar.setProgress(0);
-					progressBar.setVisibility(View.GONE);
+					swipeRefreshLayout.setRefreshing(false);
 					refreshing = false;
 				}
 			}, forceLoad);
