@@ -9,13 +9,7 @@ import com.chteuchteu.blogmotion.R;
 import com.chteuchteu.blogmotion.hlpr.Util;
 
 public class TwitterActivity extends BMActivity {
-	private static final String TWITTER_URL = "https://twitter.com/xhark";
-
-	private static final String baseURl = "https://twitter.com";
-
-	private static final String widgetInfo = "<a class=\"twitter-timeline\" href=\"https://twitter.com/xhark\" data-widget-id=\"454396732567076865\">Tweets de @xhark</a>\n" +
-			"<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+\"://platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>";
-
+	private static final String TWITTER_URL = "http://blogmotion.fr/public/android/m.twitter/";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -29,7 +23,6 @@ public class TwitterActivity extends BMActivity {
 		webView.getSettings().setDomStorageEnabled(true);
 		webView.getSettings().setJavaScriptEnabled(true);
 		webView.setBackgroundColor(Color.TRANSPARENT);
-		webView.loadDataWithBaseURL(baseURl, widgetInfo, "text/html", "UTF-8", null);
 
 		super.afterOnCreate();
 	}
