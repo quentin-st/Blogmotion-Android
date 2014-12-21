@@ -1,6 +1,7 @@
 package com.chteuchteu.blogmotion.adptr;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,9 +47,9 @@ public class DrawerAdapter extends ArrayAdapter<DrawerHelper.DrawerItem> {
 		if (drawerItem.isActive()) {
 			row.setBackgroundResource(R.color.drawer_selectedcolor);
 
-			int tintColor = context.getResources().getColor(R.color.tintColor);
+			int tintColor = context.getResources().getColor(android.R.color.white);
 			text.setTextColor(tintColor);
-			icon.setColorFilter(tintColor);
+			icon.setColorFilter(tintColor, PorterDuff.Mode.SRC_ATOP);
 		}
 
 		return rowView;
