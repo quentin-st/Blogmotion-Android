@@ -11,6 +11,7 @@ import com.chteuchteu.blogmotion.R;
 import com.chteuchteu.blogmotion.hlpr.Util;
 
 public class AboutActivity extends BMActivity {
+    private static final String ABOUT_URL = "http://blogmotion.fr/a-propos";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,7 @@ public class AboutActivity extends BMActivity {
 			@Override
 			public void onClick(View view) {
 				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("http://blogmotion.fr/a-propos"));
+				intent.setData(Uri.parse(ABOUT_URL));
 				startActivity(intent);
 			}
 		});
