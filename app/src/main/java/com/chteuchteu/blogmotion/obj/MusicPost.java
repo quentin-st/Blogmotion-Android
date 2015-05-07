@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 public class MusicPost {
 	private long id;
@@ -81,7 +82,11 @@ public class MusicPost {
 
 	public String generateTargetUrl(String descriptionTag) {
 		Document jsoup = Jsoup.parse(descriptionTag);
-		return jsoup.getElementsByTag("iframe").get(0).attr("src");
+		Elements iframes = jsoup.getElementsByTag("iframe");
+		if (iframes.size() > 0)
+			return jsoup.getElementsByTag("iframe").get(0).attr("src");
+		else
+			return "";
 	}
 	public MusicPostType detectPostType(String descriptionTag) {
 		return descriptionTag.contains("youtube") ? MusicPost.MusicPostType.YOUTUBE : MusicPost.MusicPostType.SOUNDCLOUD;
