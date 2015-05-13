@@ -9,6 +9,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Post {
@@ -72,13 +73,11 @@ public class Post {
 		if (str.equals(""))
 			return;
 
-		for (String s : str.split(","))
-			categories.add(s);
+		Collections.addAll(categories, str.split(","));
 	}
 
 	/**
 	 * Returns the first image found in the artice content
-	 * @return
 	 */
 	public String getImageUrl() {
 		if (this.content.equals(""))

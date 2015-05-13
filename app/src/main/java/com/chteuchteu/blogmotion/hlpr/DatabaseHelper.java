@@ -105,7 +105,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	public List<Post> getPosts() {
-		List<Post> posts = new ArrayList<Post>();
+		List<Post> posts = new ArrayList<>();
 
 		String selectQuery = "SELECT * FROM " + TABLE_POSTS;
 

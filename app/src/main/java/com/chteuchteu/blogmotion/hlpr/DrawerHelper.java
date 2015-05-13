@@ -75,7 +75,7 @@ public class DrawerHelper {
 		public OnDrawerItemClick getClickListener() { return clickListener; }
 		public boolean isActive() { return this.active; }
 	}
-	public interface OnDrawerItemClick { public void onClick(); }
+	public interface OnDrawerItemClick { void onClick(); }
 
 	private List<DrawerItem> getDrawerItems(Class currentActivity) {
 		List<DrawerItem> drawerItems = new ArrayList<>();

@@ -57,11 +57,7 @@ public class ArticlesHelper {
 					posts.add(new Post((long) i, title, permalink, publishDate, categories, description, content));
 				}
 			}
-		} catch (SAXException ex) {
-			ex.printStackTrace();
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		} catch (ParserConfigurationException ex) {
+		} catch (SAXException | IOException | ParserConfigurationException ex) {
 			ex.printStackTrace();
 		}
 	}

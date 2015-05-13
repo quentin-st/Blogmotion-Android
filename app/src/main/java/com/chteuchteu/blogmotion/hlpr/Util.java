@@ -20,10 +20,10 @@ import android.widget.TextView;
 import com.chteuchteu.blogmotion.R;
 
 public class Util {
-	public static interface ProgressListener {
-		public void onPreExecute();
-		public void onProgress(int progress, int total);
-		public void onPostExecute();
+	public interface ProgressListener {
+		void onPreExecute();
+		void onProgress(int progress, int total);
+		void onPostExecute();
 	}
 
 	public static String getPref(Context context, String key) {
@@ -151,7 +151,7 @@ public class Util {
 			View v;
 			for (int i = 0; i < count; i++) {
 				v = group.getChildAt(i);
-				if (v instanceof TextView || v instanceof EditText || v instanceof Button) {
+				if (v instanceof TextView) {
 					((TextView) v).setTypeface(font);
 				} else if (v instanceof ViewGroup)
 					setFont((ViewGroup) v, font);

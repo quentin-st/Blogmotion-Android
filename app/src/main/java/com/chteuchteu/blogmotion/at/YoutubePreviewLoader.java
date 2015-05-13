@@ -52,7 +52,7 @@ public class YoutubePreviewLoader extends AsyncTask<Void, Integer, Void> {
 	}
 
 
-	public static interface YoutubePreviewLoaderListener {
-		public void onPostExecute(Bitmap downloadedBitmap);
+	public interface YoutubePreviewLoaderListener {
+		void onPostExecute(Bitmap downloadedBitmap);
 	}
 }

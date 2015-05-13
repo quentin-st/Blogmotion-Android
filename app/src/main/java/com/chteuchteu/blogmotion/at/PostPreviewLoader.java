@@ -50,7 +50,7 @@ public class PostPreviewLoader extends AsyncTask<Void, Integer, Void> {
 		this.ppll.onPostExecute(this.downloadedBitmap);
 	}
 
-	public static interface PostPreviewLoaderListener {
-		public void onPostExecute(Bitmap downloadedBitmap);
+	public interface PostPreviewLoaderListener {
+		void onPostExecute(Bitmap downloadedBitmap);
 	}
 }
