@@ -20,7 +20,6 @@ import java.util.List;
 public class PostsListAdapter {
 	private Context context;
 	private LinearLayout container;
-	private List<Post> posts;
 	private OnItemSelected onItemSelected;
 
 	public PostsListAdapter(LinearLayout container, Context context) {
@@ -29,7 +28,6 @@ public class PostsListAdapter {
 	}
 
 	public void inflate(final List<Post> posts) {
-		this.posts = posts;
 		LinearLayout line = null;
 
 		for (final Post post : posts) {
@@ -40,7 +38,7 @@ public class PostsListAdapter {
 				line.setOrientation(LinearLayout.HORIZONTAL);
 			}
 
-			View rowPostItem = ((Activity) context).getLayoutInflater().inflate(R.layout.row_postitem, null);
+			View rowPostItem = ((Activity) context).getLayoutInflater().inflate(R.layout.row_postitem, this.container, false);
 			final ImageView img = (ImageView) rowPostItem.findViewById(R.id.imageview);
 			TextView title = (TextView) rowPostItem.findViewById(R.id.title);
 			Util.Fonts.setFont(context, title, Util.Fonts.CustomFont.Roboto_Regular);
@@ -58,7 +56,8 @@ public class PostsListAdapter {
 					LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
 			rowPostItem.setLayoutParams(param);
 
-			line.addView(rowPostItem);
+			if (line != null) // Just to avoid warning
+				line.addView(rowPostItem);
 
 			if (post.hasPreviewImage())
 				img.setImageBitmap(post.getPreviewImage());
@@ -78,7 +77,8 @@ public class PostsListAdapter {
 				}).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 			}
 
-			if (position % 2 == 1)
+			if (position % 2 == 1
+					&& line != null) // Just to avoid warning
 				container.addView(line);
 		}
 	}
@@ -86,6 +86,6 @@ public class PostsListAdapter {
 	public void setOnItemSelected(OnItemSelected action) { this.onItemSelected = action; }
 
 	public interface OnItemSelected {
-		public void onItemSelected(int itemId);
+		void onItemSelected(int itemId);
 	}
 }
