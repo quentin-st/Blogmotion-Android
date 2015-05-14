@@ -14,6 +14,7 @@ import com.chteuchteu.blogmotion.hlpr.Util;
 import com.chteuchteu.blogmotion.obj.Post;
 import com.crashlytics.android.Crashlytics;
 
+import io.fabric.sdk.android.Fabric;
 import java.util.List;
 
 public class PostListActivity extends BMActivity {
@@ -27,7 +28,7 @@ public class PostListActivity extends BMActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_list);
 
-	    Crashlytics.start(this);
+	    Fabric.with(this, new Crashlytics());
 
 	    // Init BM
 	    BM.getInstance(this);
