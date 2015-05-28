@@ -57,6 +57,4 @@ gradlew.bat
 import-summary.txt
 local.properties
 
-Blogmotion.iml
-app/app.iml
-
+*.iml
