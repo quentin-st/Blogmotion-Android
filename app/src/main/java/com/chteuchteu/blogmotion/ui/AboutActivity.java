@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.chteuchteu.blogmotion.R;
+import com.chteuchteu.blogmotion.hlpr.DrawerHelper;
 import com.chteuchteu.blogmotion.hlpr.Util;
 
 public class AboutActivity extends BMActivity {
@@ -42,5 +43,9 @@ public class AboutActivity extends BMActivity {
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 		Util.setTransition(context, Util.TransitionStyle.SHALLOWER);
+	}
+
+	public DrawerHelper.DrawerMenuItem getMenuItem() {
+		return DrawerHelper.DrawerMenuItem.APropos;
 	}
 }

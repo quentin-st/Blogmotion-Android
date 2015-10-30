@@ -7,6 +7,7 @@ import android.view.MenuItem;
 
 import com.chteuchteu.blogmotion.BM;
 import com.chteuchteu.blogmotion.R;
+import com.chteuchteu.blogmotion.hlpr.DrawerHelper;
 import com.chteuchteu.blogmotion.hlpr.Util;
 import com.chteuchteu.blogmotion.obj.Post;
 
@@ -73,5 +74,9 @@ public class PostDetailActivity extends BMActivity {
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 		Util.setTransition(context, Util.TransitionStyle.SHALLOWER);
+	}
+
+	public DrawerHelper.DrawerMenuItem getMenuItem() {
+		return DrawerHelper.DrawerMenuItem.Articles;
 	}
 }

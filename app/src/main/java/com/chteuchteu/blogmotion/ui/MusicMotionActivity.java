@@ -12,6 +12,7 @@ import android.widget.ListView;
 import com.chteuchteu.blogmotion.BM;
 import com.chteuchteu.blogmotion.R;
 import com.chteuchteu.blogmotion.adptr.MusicListAdapter;
+import com.chteuchteu.blogmotion.hlpr.DrawerHelper;
 import com.chteuchteu.blogmotion.hlpr.Util;
 
 public class MusicMotionActivity extends BMActivity {
@@ -100,5 +101,9 @@ public class MusicMotionActivity extends BMActivity {
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 		Util.setTransition(context, Util.TransitionStyle.SHALLOWER);
+	}
+
+	public DrawerHelper.DrawerMenuItem getMenuItem() {
+		return DrawerHelper.DrawerMenuItem.MusicMotion;
 	}
 }

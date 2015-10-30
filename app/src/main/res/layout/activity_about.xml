@@ -1,43 +1,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  android:layout_width="match_parent"
-			  android:layout_height="match_parent"
-			  android:orientation="vertical"
-			  android:fitsSystemWindows="true">
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:fitsSystemWindows="true">
 
 	<include layout="@layout/incl_toolbar" />
 
-	<android.support.v4.widget.DrawerLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:id="@+id/drawer_layout"
+	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="match_parent">
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		android:gravity="center_vertical|center_horizontal"
+		android:fitsSystemWindows="true">
 
-		<LinearLayout
+		<TextView
+			android:id="@+id/textView"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:orientation="vertical"
-			android:gravity="center_vertical|center_horizontal"
-			android:fitsSystemWindows="true">
+			android:layout_height="wrap_content"
+			android:gravity="center_horizontal"
+			android:layout_margin="20dp"
+			android:textSize="16sp"
+			android:text="@string/about_text"
+			android:layout_marginBottom="20dp"/>
 
-			<TextView
-				android:id="@+id/textView"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-				android:layout_margin="20dp"
-				android:textSize="16sp"
-				android:text="@string/about_text"
-				android:layout_marginBottom="20dp"/>
+		<Button
+			android:id="@+id/button"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/about_more"/>
 
-			<Button
-				android:id="@+id/button"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/about_more"/>
-
-		</LinearLayout>
-
-		<include layout="@layout/drawer" />
-
-	</android.support.v4.widget.DrawerLayout>
+	</LinearLayout>
 </LinearLayout>

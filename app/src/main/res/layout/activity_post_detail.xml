@@ -7,29 +7,20 @@
 
 	<include layout="@layout/incl_toolbar" />
 
-	<android.support.v4.widget.DrawerLayout
-		android:id="@+id/drawer_layout"
+	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="match_parent">
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		android:layout_marginLeft="@dimen/listview_horizontal_margin"
+		android:layout_marginRight="@dimen/listview_horizontal_margin"
+		android:fitsSystemWindows="true">
 
-		<LinearLayout
+		<FrameLayout
+			android:id="@+id/post_detail_container"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:orientation="vertical"
-			android:layout_marginLeft="@dimen/listview_horizontal_margin"
-			android:layout_marginRight="@dimen/listview_horizontal_margin"
-			android:fitsSystemWindows="true">
+			tools:context=".PostDetailActivity"
+			tools:ignore="MergeRootFrame" />
 
-			<FrameLayout
-				android:id="@+id/post_detail_container"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				tools:context=".PostDetailActivity"
-				tools:ignore="MergeRootFrame" />
-
-		</LinearLayout>
-
-		<include layout="@layout/drawer" />
-
-	</android.support.v4.widget.DrawerLayout>
+	</LinearLayout>
 </LinearLayout>

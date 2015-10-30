@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.chteuchteu.blogmotion.BM;
 import com.chteuchteu.blogmotion.R;
 import com.chteuchteu.blogmotion.adptr.PostsListAdapter;
+import com.chteuchteu.blogmotion.hlpr.DrawerHelper;
 import com.chteuchteu.blogmotion.hlpr.Util;
 import com.chteuchteu.blogmotion.obj.Post;
 import com.crashlytics.android.Crashlytics;
@@ -128,5 +129,9 @@ public class PostListActivity extends BMActivity {
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	public DrawerHelper.DrawerMenuItem getMenuItem() {
+		return DrawerHelper.DrawerMenuItem.Articles;
 	}
 }
