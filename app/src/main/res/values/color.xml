@@ -2,6 +2,5 @@
 <resources>
 	<color name="statusBarColor">#041119</color>
 	<color name="actionBarColor">#041C26</color>
-	<color name="drawer_selectedcolor">#00bcd4</color>
 	<color name="tintColor">#5CC2D6</color>
 </resources>
