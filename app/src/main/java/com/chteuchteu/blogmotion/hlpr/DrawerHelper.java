@@ -1,13 +1,15 @@
 package com.chteuchteu.blogmotion.hlpr;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.chteuchteu.blogmotion.R;
-import com.chteuchteu.blogmotion.ui.AboutActivity;
 import com.chteuchteu.blogmotion.ui.BMActivity;
 import com.chteuchteu.blogmotion.ui.MusicMotionActivity;
 import com.chteuchteu.blogmotion.ui.PostListActivity;
@@ -16,7 +18,9 @@ import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 
@@ -82,10 +86,11 @@ public class DrawerHelper {
 
 		// About
 		this.drawerItems.put(DrawerMenuItem.APropos,
-				new PrimaryDrawerItem()
+				new SecondaryDrawerItem()
 						.withName(R.string.about)
 						.withIdentifier(DrawerMenuItem.APropos.getIdentifier())
 						.withIcon(CommunityMaterial.Icon.cmd_information)
+						.withSelectable(false)
 		);
 
 		DrawerBuilder builder = new DrawerBuilder()
@@ -97,6 +102,7 @@ public class DrawerHelper {
 				this.drawerItems.get(DrawerMenuItem.Articles),
 				this.drawerItems.get(DrawerMenuItem.MusicMotion),
 				this.drawerItems.get(DrawerMenuItem.Twitter),
+				new DividerDrawerItem(),
 				this.drawerItems.get(DrawerMenuItem.APropos)
 		);
 
@@ -119,8 +125,18 @@ public class DrawerHelper {
 						Util.setTransition(context, Util.TransitionStyle.DEEPER);
 						return true;
 					case APropos:
-						context.startActivity(new Intent(context, AboutActivity.class));
-						Util.setTransition(context, Util.TransitionStyle.DEEPER);
+						new AlertDialog.Builder(context)
+								.setTitle(R.string.about)
+								.setMessage(R.string.about_text)
+								.setPositiveButton(R.string.about_more, new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog, int which) {
+										Intent intent = new Intent(Intent.ACTION_VIEW);
+										intent.setData(Uri.parse("http://blogmotion.fr/a-propos"));
+										context.startActivity(intent);
+									}
+								})
+								.show();
 						return true;
 					default:
 						return false;
