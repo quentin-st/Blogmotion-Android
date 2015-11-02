@@ -41,8 +41,6 @@ public class PostsListAdapter {
 			View rowPostItem = ((Activity) context).getLayoutInflater().inflate(R.layout.row_postitem, this.container, false);
 			final ImageView img = (ImageView) rowPostItem.findViewById(R.id.imageview);
 			TextView title = (TextView) rowPostItem.findViewById(R.id.title);
-			Util.Fonts.setFont(context, title, Util.Fonts.CustomFont.Roboto_Regular);
-
 			title.setText(post.getTitle());
 			rowPostItem.setOnClickListener(new View.OnClickListener() {
 				@Override

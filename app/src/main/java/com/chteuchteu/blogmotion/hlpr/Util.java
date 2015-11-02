@@ -122,8 +122,7 @@ public class Util {
 	public static final class Fonts {
 		/* ENUM Custom Fonts */
 		public enum CustomFont {
-			Roboto_Medium("Roboto-Medium.ttf"),
-			Roboto_Regular("Roboto-Regular.ttf");
+			Roboto_Medium("Roboto-Medium.ttf");
 
 			final String file;
 			private CustomFont(String fileName) { this.file = fileName; }

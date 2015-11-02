@@ -41,13 +41,10 @@ public class MusicListAdapter extends ArrayAdapter<MusicPost> {
 		final MusicPost post = this.posts.get(position);
 
 		tv_publishedOn2.setText(post.getPubDate());
-		Util.Fonts.setFont(context, tv_publishedOn1, Util.Fonts.CustomFont.Roboto_Regular);
 		Util.Fonts.setFont(context, tv_publishedOn2, Util.Fonts.CustomFont.Roboto_Medium);
 
-		if (post.hasTitle()) {
+		if (post.hasTitle())
 			tv_mediaName.setText(post.getTitle());
-			Util.Fonts.setFont(context, tv_mediaName, Util.Fonts.CustomFont.Roboto_Regular);
-		}
 		else
 			tv_mediaName.setVisibility(View.GONE);
 
