@@ -27,6 +27,8 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import java.util.HashMap;
 
 public class DrawerHelper {
+	private static final String CONTRIBUTE_URL = "https://github.com/chteuchteu/Blogmotion-Android";
+
 	private Context context;
 	private Activity activity;
 	private Toolbar toolbar;
@@ -36,7 +38,8 @@ public class DrawerHelper {
 		Articles(0),
 		MusicMotion(1),
 		Twitter(2),
-		APropos(3);
+		APropos(3),
+		Contribuer(4);
 
 		private int identifier;
 		public int getIdentifier() { return this.identifier; }
@@ -93,6 +96,15 @@ public class DrawerHelper {
 						.withSelectable(false)
 		);
 
+		// Contribuer
+		this.drawerItems.put(DrawerMenuItem.Contribuer,
+				new SecondaryDrawerItem()
+						.withName(R.string.contribute)
+						.withIdentifier(DrawerMenuItem.Contribuer.getIdentifier())
+						.withIcon(CommunityMaterial.Icon.cmd_github_box)
+						.withSelectable(false)
+		);
+
 		DrawerBuilder builder = new DrawerBuilder()
 				.withActivity(this.activity)
 				.withToolbar(this.toolbar);
@@ -103,7 +115,8 @@ public class DrawerHelper {
 				this.drawerItems.get(DrawerMenuItem.MusicMotion),
 				this.drawerItems.get(DrawerMenuItem.Twitter),
 				new DividerDrawerItem(),
-				this.drawerItems.get(DrawerMenuItem.APropos)
+				this.drawerItems.get(DrawerMenuItem.APropos),
+				this.drawerItems.get(DrawerMenuItem.Contribuer)
 		);
 
 		builder.withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -137,6 +150,9 @@ public class DrawerHelper {
 									}
 								})
 								.show();
+						return true;
+					case Contribuer:
+						context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(CONTRIBUTE_URL)));
 						return true;
 					default:
 						return false;

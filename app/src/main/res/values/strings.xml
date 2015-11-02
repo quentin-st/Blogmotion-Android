@@ -14,5 +14,6 @@
 	<string name="about_more">En savoir plus</string>
 	<string name="firstLaunch">Veuillez patienter pendant le premier chargement des articles</string>
     <string name="loading">Chargement</string>
+    <string name="contribute">Contribuer</string>
 
 </resources>
