@@ -66,4 +66,4 @@ public class MusicListAdapter extends ArrayAdapter<MusicPost> {
 
 		return rowView;
 	}
-} 
+}
