@@ -31,9 +31,10 @@ public class MusicListAdapter extends ArrayAdapter<MusicPost> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.row_musicitem, parent, false);
+		View rowView = convertView != null
+				? convertView
+				: inflater.inflate(R.layout.row_musicitem, parent, false);
 
-		TextView tv_publishedOn1 = (TextView) rowView.findViewById(R.id.mediaPublishedOn1);
 		TextView tv_publishedOn2 = (TextView) rowView.findViewById(R.id.mediaPublishedOn2);
 		TextView tv_mediaName = (TextView) rowView.findViewById(R.id.mediaName);
 		final ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView);
