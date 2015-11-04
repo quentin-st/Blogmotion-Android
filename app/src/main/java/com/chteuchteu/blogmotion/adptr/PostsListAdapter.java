@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.chteuchteu.blogmotion.R;
 import com.chteuchteu.blogmotion.at.PostPreviewLoader;
-import com.chteuchteu.blogmotion.hlpr.Util;
 import com.chteuchteu.blogmotion.obj.Post;
 
 import java.util.List;

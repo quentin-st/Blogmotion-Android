@@ -144,8 +144,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		for (MusicPost post : posts) {
 			ContentValues values = new ContentValues();
 			values.put(KEY_MUSICPOSTS_TITLE, post.getTitle());
-			values.put(KEY_MUSICPOSTS_TARGETURL, post.getTargetUrl());
-			values.put(KEY_MUSICPOSTS_PUBDATE, post.getPubDate());
+			values.put(KEY_MUSICPOSTS_TARGETURL, post.getPermalink());
+			values.put(KEY_MUSICPOSTS_PUBDATE, post.getPublishDate());
 			values.put(KEY_MUSICPOSTS_TYPE, post.getType().toString());
 
 			long id = db.insert(TABLE_MUSICPOSTS, null, values);

@@ -44,7 +44,7 @@ public class MusicMotionActivity extends BMActivity {
 		this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-				String targetUrl = BM.getInstance(context).getMusicPosts().get(i).getTargetUrl();
+				String targetUrl = BM.getInstance(context).getMusicPosts().get(i).getPermalink();
 				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(targetUrl)));
 				Util.setTransition(context, Util.TransitionStyle.DEEPER);
 			}

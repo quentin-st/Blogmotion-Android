@@ -6,11 +6,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-public class MusicPost {
-	private long id;
-	private String title;
-	private String targetUrl;
-	private String pubDate;
+public class MusicPost extends BasePost {
 	private MusicPostType type;
 
 	private Bitmap previewImage;
@@ -35,10 +31,9 @@ public class MusicPost {
 	 * @param pubDate
 	 */
 	public MusicPost(long id, String title, String descriptionTag, String pubDate) {
+		super(title, pubDate, null);
 		this.id = id;
-		this.title = title;
-		this.targetUrl = generateTargetUrl(descriptionTag);
-		this.pubDate = pubDate;
+		this.permalink = generateTargetUrl(descriptionTag);
 		this.type = detectPostType(descriptionTag);
 	}
 
@@ -51,30 +46,18 @@ public class MusicPost {
 	 * @param type
 	 */
 	public MusicPost(long id, String title, String targetUrl, String pubDate, MusicPostType type) {
+		super(title, pubDate, targetUrl);
 		this.id = id;
-		this.title = title;
-		this.targetUrl = targetUrl;
-		this.pubDate = pubDate;
 		this.type = type;
 	}
 
-	public long getId() { return id; }
-	public void setId(long id) { this.id = id; }
-
-	public String getTitle() { return title; }
-	public void setTitle(String title) { this.title = title; }
 	public boolean hasTitle() { return !this.title.equals("Video") && !this.title.equals("Audio"); }
-
-	public String getPubDate() { return pubDate; }
-	public void setPubDate(String pubDate) { this.pubDate = pubDate; }
 
 	public MusicPostType getType() { return type; }
 
 	public Bitmap getPreviewImage() { return previewImage; }
 	public void setPreviewImage(Bitmap previewImage) { this.previewImage = previewImage; }
 	public boolean hasPreviewImage() { return this.previewImage != null; }
-
-	public String getTargetUrl() { return targetUrl; }
 
 	public String toString() {
 		return this.title;

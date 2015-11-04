@@ -52,7 +52,7 @@ public class ArticlesHelper {
 
 					content = ARTICLES_BEFORE + content + ARTICLES_AFTER;
 
-					List<String> categories = new ArrayList<String>();
+					List<String> categories = new ArrayList<>();
 
 					posts.add(new Post((long) i, title, permalink, publishDate, categories, description, content));
 				}

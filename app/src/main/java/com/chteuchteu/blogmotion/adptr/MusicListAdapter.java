@@ -41,7 +41,7 @@ public class MusicListAdapter extends ArrayAdapter<MusicPost> {
 
 		final MusicPost post = this.posts.get(position);
 
-		tv_publishedOn2.setText(post.getPubDate());
+		tv_publishedOn2.setText(post.getPublishDate());
 		Util.Fonts.setFont(context, tv_publishedOn2, Util.Fonts.CustomFont.Roboto_Medium);
 
 		if (post.hasTitle())

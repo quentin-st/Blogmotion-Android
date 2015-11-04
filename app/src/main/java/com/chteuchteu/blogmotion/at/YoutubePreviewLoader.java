@@ -27,7 +27,7 @@ public class YoutubePreviewLoader extends AsyncTask<Void, Integer, Void> {
 		if (this.musicPost.getType() != MusicPost.MusicPostType.YOUTUBE)
 			return null;
 
-		String imageUrl = YoutubeHelper.getPreviewImageUrl(musicPost.getTargetUrl());
+		String imageUrl = YoutubeHelper.getPreviewImageUrl(musicPost.getPermalink());
 
 		try {
 			URL url = new URL(imageUrl);
