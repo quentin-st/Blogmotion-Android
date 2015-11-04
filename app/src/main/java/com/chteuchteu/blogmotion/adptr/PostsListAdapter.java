@@ -30,7 +30,7 @@ public class PostsListAdapter {
 		LinearLayout line = null;
 
 		for (final Post post : posts) {
-			final int position = posts.indexOf(post);
+			int position = posts.indexOf(post);
 
 			if (position % 2 == 0) { // New line
 				line = new LinearLayout(context);
@@ -44,7 +44,7 @@ public class PostsListAdapter {
 			rowPostItem.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					onItemSelected.onItemSelected(position);
+					onItemSelected.onItemSelected(post);
 				}
 			});
 
@@ -83,6 +83,6 @@ public class PostsListAdapter {
 	public void setOnItemSelected(OnItemSelected action) { this.onItemSelected = action; }
 
 	public interface OnItemSelected {
-		void onItemSelected(int itemId);
+		void onItemSelected(Post post);
 	}
 }

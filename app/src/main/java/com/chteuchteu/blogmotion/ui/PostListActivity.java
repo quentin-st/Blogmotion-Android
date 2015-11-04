@@ -51,11 +51,9 @@ public class PostListActivity extends BMActivity {
 	    this.adapter = new PostsListAdapter((LinearLayout) findViewById(R.id.list_container), this.context);
 	    this.adapter.setOnItemSelected(new PostsListAdapter.OnItemSelected() {
 		    @Override
-		    public void onItemSelected(int itemId) {
-			    long id = BM.getInstance(context).getPosts().get(itemId).getId();
-
+		    public void onItemSelected(Post post) {
 			    Intent detailIntent = new Intent(context, PostDetailActivity.class);
-			    detailIntent.putExtra(PostDetailFragment.ARG_ITEM_ID, id);
+			    detailIntent.putExtra(PostDetailFragment.ARG_ITEM_ID, post.getId());
 			    startActivity(detailIntent);
 			    Util.setTransition(context, Util.TransitionStyle.DEEPER);
 		    }
