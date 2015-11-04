@@ -23,9 +23,9 @@ public class PostPreviewLoader extends AsyncTask<Void, Integer, Void> {
 
 	@Override
 	protected Void doInBackground(Void... arg0) {
-		String imageUrl = post.getImageUrl();
+		String imageUrl = post.getPreviewImageUrl();
 
-		if (imageUrl.equals(""))
+		if (imageUrl == null)
 			return null;
 
 		try {

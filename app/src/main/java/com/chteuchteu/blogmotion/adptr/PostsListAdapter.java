@@ -58,7 +58,7 @@ public class PostsListAdapter {
 
 			if (post.hasPreviewImage())
 				img.setImageBitmap(post.getPreviewImage());
-			else {
+			else if (post.getPreviewImageUrl() != null) {
 				new PostPreviewLoader(post, new PostPreviewLoader.PostPreviewLoaderListener() {
 					@Override
 					public void onPostExecute(Bitmap downloadedBitmap) {

@@ -17,6 +17,8 @@ public class Post extends BasePost {
 	private String description;
 	private String content;
 
+	private String previewImageUrl;
+	private boolean previewImageFetched;
 	private Bitmap previewImage;
 
 	public Post(long id, String title, String permalink, String publishDate,
@@ -66,26 +68,37 @@ public class Post extends BasePost {
 	/**
 	 * Returns the first image found in the artice content
 	 */
-	public String getImageUrl() {
+	public String getPreviewImageUrl() {
+		if (previewImageFetched)
+			return previewImageUrl;
+
+		previewImageFetched = true;
+
 		if (this.content.equals(""))
-			return "";
+			return null;
 
 		Document doc = Jsoup.parse(this.content);
 		Elements images = doc.getElementsByTag("img");
 
-		if (images.size() > 0)
-			return images.get(0).attr("src");
+		if (images.size() > 0) {
+			String url = images.get(0).attr("src");
+			previewImageUrl = url;
+			return url;
+		}
 
 		// Check if there is a youtube video in it
 		if (this.content.contains("youtube.com")) {
 			Elements iframeTargets = doc.getElementsByTag("iframe");
 
 			for (Element elem : iframeTargets) {
-				if (elem.attr("src").contains("youtube.com"))
-					return YoutubeHelper.getPreviewImageUrl(elem.attr("src"));
+				if (elem.attr("src").contains("youtube.com")) {
+					String url = YoutubeHelper.getPreviewImageUrl(elem.attr("src"));
+					previewImageUrl = url;
+					return url;
+				}
 			}
 		}
 
-		return "";
+		return null;
 	}
 }
