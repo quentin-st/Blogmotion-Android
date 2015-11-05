@@ -1,18 +1,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  android:layout_width="match_parent"
-			  android:layout_height="match_parent"
-			  android:orientation="vertical"
-			  android:fitsSystemWindows="true">
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:fitsSystemWindows="true">
 
 	<include layout="@layout/incl_toolbar" />
 
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_marginLeft="@dimen/listview_horizontal_margin"
-		android:layout_marginRight="@dimen/listview_horizontal_margin"
+		android:paddingLeft="@dimen/listview_horizontal_margin"
+		android:paddingRight="@dimen/listview_horizontal_margin"
 		android:orientation="vertical"
-		android:fitsSystemWindows="true">
+		android:background="@drawable/bottom_shadow">
 
 		<WebView
 			android:id="@+id/wv"

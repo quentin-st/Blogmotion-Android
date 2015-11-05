@@ -9,10 +9,10 @@
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_marginLeft="@dimen/listview_horizontal_margin"
-		android:layout_marginRight="@dimen/listview_horizontal_margin"
+		android:paddingLeft="@dimen/listview_horizontal_margin"
+		android:paddingRight="@dimen/listview_horizontal_margin"
 		android:orientation="vertical"
-		android:fitsSystemWindows="true">
+		android:background="@drawable/bottom_shadow">
 
 		<android.support.v4.widget.SwipeRefreshLayout
 			android:id="@+id/swipeRefreshLayout"
