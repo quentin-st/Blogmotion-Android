@@ -31,9 +31,6 @@ public class PostListActivity extends BMActivity {
 
 	    Fabric.with(this, new Crashlytics());
 
-	    // Init BM
-	    BM.getInstance(this);
-
 	    this.menuRes = R.menu.postlist;
 	    this.currentActivity = PostListActivity.class;
 	    this.postsContainer = (LinearLayout) findViewById(R.id.list_container);
@@ -58,7 +55,7 @@ public class PostListActivity extends BMActivity {
 			    Util.setTransition(context, Util.TransitionStyle.DEEPER);
 		    }
 	    });
-	    this.adapter.inflate(BM.getInstance(context).getPosts());
+	    this.adapter.inflate(bm.getPosts());
 
 	    fetchArticles(false);
 
@@ -75,15 +72,15 @@ public class PostListActivity extends BMActivity {
 		refreshing = true;
 
 		// Load articles on first launch (or if forceload)
-		if (BM.getInstance(context).getPosts().isEmpty() || forceLoad)
-			BM.getInstance(context).loadArticles(new Util.ProgressListener() {
+		if (bm.getPosts().isEmpty() || forceLoad)
+			bm.loadArticles(new Util.ProgressListener() {
 				private long lastArticleId;
 
 				@Override
 				public void onPreExecute() {
 					swipeRefreshLayout.setRefreshing(true);
 
-					List<Post> articles = BM.getInstance(context).getPosts();
+					List<Post> articles = bm.getPosts();
 					if (articles.size() > 0)
 						this.lastArticleId = articles.get(articles.size() - 1).getId();
 					else
@@ -98,7 +95,7 @@ public class PostListActivity extends BMActivity {
 				@Override
 				public void onPostExecute() {
 					// Find lastArticleId and compare it (see if there has been any changes)
-					List<Post> articles = BM.getInstance(context).getPosts();
+					List<Post> articles = bm.getPosts();
 
 					long lastArticleId = -1;
 					if (articles.size() > 0)
@@ -106,9 +103,8 @@ public class PostListActivity extends BMActivity {
 
 					boolean newArticles = this.lastArticleId != lastArticleId;
 					if (newArticles) {
-						BM.log("Removing postsContainer child views");
 						postsContainer.removeAllViews();
-						adapter.inflate(BM.getInstance(context).getPosts());
+						adapter.inflate(bm.getPosts());
 					}
 
 					Util.setViewAlpha(postsContainer, 1f);
