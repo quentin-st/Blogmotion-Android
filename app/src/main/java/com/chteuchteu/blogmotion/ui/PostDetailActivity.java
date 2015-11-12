@@ -3,7 +3,9 @@ package com.chteuchteu.blogmotion.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.chteuchteu.blogmotion.BM;
 import com.chteuchteu.blogmotion.R;
@@ -55,13 +57,22 @@ public class PostDetailActivity extends BMActivity {
 
 	    if (this.post != null)
 		    this.actionBar.setTitle(this.post.getTitle());
+
+		toolbar.setNavigationIcon(ContextCompat.getDrawable(context, R.drawable.ic_action_navigation_arrow_back));
+		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onBackPressed();
+			}
+		});
     }
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_open:
-				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(BM.getInstance(this.context).getPost(postId).getPermalink())));
+				Post post = bm.getPost(postId);
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(post.getPermalink())));
 
 				return true;
 		}

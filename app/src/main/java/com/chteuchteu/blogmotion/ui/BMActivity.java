@@ -8,12 +8,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 
+import com.chteuchteu.blogmotion.BM;
 import com.chteuchteu.blogmotion.R;
 import com.chteuchteu.blogmotion.hlpr.DrawerHelper;
 
 public class BMActivity extends ActionBarActivity {
 	protected Context context;
+	protected Toolbar toolbar;
 	protected ActionBar actionBar;
+
+	protected BM bm;
 
 	private Menu menu;
 	protected int menuRes;
@@ -25,10 +29,11 @@ public class BMActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 
 		this.context = this;
+		this.bm = BM.getInstance(this);
 	}
 
 	protected void afterOnCreate() {
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		this.toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		this.actionBar = getSupportActionBar();
 		this.actionBar.setDisplayShowHomeEnabled(false);

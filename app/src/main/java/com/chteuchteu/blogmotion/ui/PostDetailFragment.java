@@ -48,8 +48,6 @@ public class PostDetailFragment extends Fragment {
 	        webView.setWebChromeClient(new WebChromeClient());
 
 	        WebSettings webSettings = webView.getSettings();
-	        webSettings.setPluginState(WebSettings.PluginState.ON);
-	        webSettings.setJavaScriptEnabled(true);
 	        webSettings.setUseWideViewPort(true);
 	        webSettings.setLoadWithOverviewMode(true);
 	        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
