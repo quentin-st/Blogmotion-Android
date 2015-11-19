@@ -3,7 +3,7 @@
 
     <style name="AppTheme" parent="AppTheme.Base" />
 
-    <style name="AppTheme.Base" parent="MaterialTheme.Light.DarkToolbar.TranslucentStatus">
+    <style name="AppTheme.Base" parent="MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus">
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
 
