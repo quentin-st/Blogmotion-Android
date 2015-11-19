@@ -17,6 +17,8 @@ import com.chteuchteu.blogmotion.obj.Post;
 import java.util.List;
 
 public class PostsListAdapter {
+	private static final int ARTICLES_PER_ROW = 3;
+
 	private Context context;
 	private LinearLayout container;
 	private OnItemSelected onItemSelected;
@@ -32,7 +34,7 @@ public class PostsListAdapter {
 		for (final Post post : posts) {
 			int position = posts.indexOf(post);
 
-			if (position % 2 == 0) { // New line
+			if (position % ARTICLES_PER_ROW == 0) { // New line
 				line = new LinearLayout(context);
 				line.setOrientation(LinearLayout.HORIZONTAL);
 			}
@@ -74,7 +76,7 @@ public class PostsListAdapter {
 				}).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 			}
 
-			if (position % 2 == 1
+			if (position % ARTICLES_PER_ROW == 1
 					&& line != null) // Just to avoid warning
 				container.addView(line);
 		}
