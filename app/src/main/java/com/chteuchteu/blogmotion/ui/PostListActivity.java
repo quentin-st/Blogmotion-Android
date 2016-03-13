@@ -16,7 +16,14 @@ import com.chteuchteu.blogmotion.obj.Post;
 import com.crashlytics.android.Crashlytics;
 
 import io.fabric.sdk.android.Fabric;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class PostListActivity extends BMActivity {
 	private boolean refreshing;
@@ -57,7 +64,11 @@ public class PostListActivity extends BMActivity {
 	    });
 	    this.adapter.inflate(bm.getPosts());
 
+	    // Load articles from local db
 	    fetchArticles(false);
+	    // Fetch'em from the internet anyway
+	    if (BM.shouldFetchArticles(this))
+		    fetchArticles(true);
 
 	    if (!Util.hasPref(this, "firstLaunch")) {
 		    Toast.makeText(this, R.string.firstLaunch, Toast.LENGTH_LONG).show();
@@ -71,7 +82,7 @@ public class PostListActivity extends BMActivity {
 
 		refreshing = true;
 
-		// Load articles on first launch (or if forceload)
+		// Load articles on first launch (or if forceLoad)
 		if (bm.getPosts().isEmpty() || forceLoad)
 			bm.loadArticles(new Util.ProgressListener() {
 				private long lastArticleId;
@@ -111,6 +122,11 @@ public class PostListActivity extends BMActivity {
 
 					swipeRefreshLayout.setRefreshing(false);
 					refreshing = false;
+
+					// Save lastArticlesFetch
+					DateFormat dateFormat = BM.getDateFormat();
+					Date now = Calendar.getInstance().getTime();
+					Util.setPref(context, "lastArticlesFetch", dateFormat.format(now));
 				}
 			}, forceLoad);
 	}
