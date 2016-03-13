@@ -89,7 +89,12 @@ public class PostListActivity extends BMActivity {
 
 				@Override
 				public void onPreExecute() {
-					swipeRefreshLayout.setRefreshing(true);
+					swipeRefreshLayout.post(new Runnable() {
+						@Override
+						public void run() {
+							swipeRefreshLayout.setRefreshing(true);
+						}
+					});
 
 					List<Post> articles = bm.getPosts();
 					if (articles.size() > 0)
@@ -120,7 +125,12 @@ public class PostListActivity extends BMActivity {
 
 					Util.setViewAlpha(postsContainer, 1f);
 
-					swipeRefreshLayout.setRefreshing(false);
+					swipeRefreshLayout.post(new Runnable() {
+						@Override
+						public void run() {
+							swipeRefreshLayout.setRefreshing(false);
+						}
+					});
 					refreshing = false;
 
 					// Save lastArticlesFetch
