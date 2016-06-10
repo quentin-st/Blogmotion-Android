@@ -26,12 +26,12 @@ public class ArticlesHelper {
 			"</head><body>";
 	private static final String ARTICLES_AFTER = "</body></html>";
 
-	public static void parse(String feedurl, List<Post> posts) {
+	public static void parse(String feedUrl, List<Post> posts) {
 		posts.clear();
 
 		try {
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			Document doc = builder.parse(new URL(feedurl).openStream());
+			Document doc = builder.parse(new URL(feedUrl).openStream());
 
 			NodeList nodes = doc.getElementsByTagName("item");
 			for (int i=0; i < nodes.getLength(); i++) {

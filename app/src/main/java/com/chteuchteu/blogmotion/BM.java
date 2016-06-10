@@ -56,8 +56,8 @@ public class BM {
 
 	public List<MusicPost> getMusicPosts() { return musicPosts; }
 
-	public void loadArticles(Util.ProgressListener progressListener, boolean forceLoad) {
-		new ArticlesLoader(posts, progressListener, forceLoad).execute();
+	public void loadArticles(Util.ProgressListener progressListener, ArticlesLoader.Mode mode) {
+		new ArticlesLoader(posts, progressListener, mode).execute();
 	}
 
 	public void loadMusicArticles(Util.ProgressListener progressListener, boolean forceLoad) {
@@ -76,6 +76,7 @@ public class BM {
 		if (!Util.hasPref(context, "lastArticlesFetch"))
 			return true;
 
+		boolean shouldUpdate = false;
 		DateFormat dateFormat = getDateFormat();
 
 		try {
@@ -85,11 +86,12 @@ public class BM {
 
 			long daysDiff = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 
-			return daysDiff >= DAYS_BETWEEN_FORCED_FETCH;
+			shouldUpdate = daysDiff >= DAYS_BETWEEN_FORCED_FETCH;
 		} catch (ParseException e) {
 			e.printStackTrace();
-			return false;
 		}
+
+		return shouldUpdate;
 	}
 
 	@SuppressLint("SimpleDateFormat")

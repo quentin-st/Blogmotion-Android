@@ -10,20 +10,18 @@ import android.widget.Toast;
 import com.chteuchteu.blogmotion.BM;
 import com.chteuchteu.blogmotion.R;
 import com.chteuchteu.blogmotion.adptr.PostsListAdapter;
+import com.chteuchteu.blogmotion.at.ArticlesLoader;
 import com.chteuchteu.blogmotion.hlpr.DrawerHelper;
 import com.chteuchteu.blogmotion.hlpr.Util;
 import com.chteuchteu.blogmotion.obj.Post;
 import com.crashlytics.android.Crashlytics;
 
-import io.fabric.sdk.android.Fabric;
-
 import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+
+import io.fabric.sdk.android.Fabric;
 
 public class PostListActivity extends BMActivity {
 	private boolean refreshing;
@@ -48,7 +46,7 @@ public class PostListActivity extends BMActivity {
 	    this.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 		    @Override
 		    public void onRefresh() {
-			    fetchArticles(true);
+			    fetchArticles();
 		    }
 	    });
 
@@ -65,10 +63,7 @@ public class PostListActivity extends BMActivity {
 	    this.adapter.inflate(bm.getPosts());
 
 	    // Load articles from local db
-	    fetchArticles(false);
-	    // Fetch'em from the internet anyway
-	    if (BM.shouldFetchArticles(this))
-		    fetchArticles(true);
+		inflateArticles(BM.shouldFetchArticles(this));
 
 	    if (!Util.hasPref(this, "firstLaunch")) {
 		    Toast.makeText(this, R.string.firstLaunch, Toast.LENGTH_LONG).show();
@@ -76,76 +71,106 @@ public class PostListActivity extends BMActivity {
 	    }
     }
 
-	public void fetchArticles(boolean forceLoad) {
+	/**
+	 * Inflates articles list from DB, done at app launch
+	 * @param fetch True if we should inflate + update the list from internet
+     */
+	private void inflateArticles(final boolean fetch) {
+		if (refreshing)
+			return;
+
+		refreshing = true;
+
+		// Load articles from cache
+		bm.loadArticles(new Util.ProgressListener() {
+			@Override
+			public void onPreExecute() { }
+
+			@Override
+			public void onProgress(int progress, int total) { }
+
+			@Override
+			public void onPostExecute() {
+				postsContainer.removeAllViews();
+				adapter.inflate(bm.getPosts());
+
+				refreshing = false;
+
+				if (fetch)
+					fetchArticles();
+			}
+		}, ArticlesLoader.Mode.CACHE);
+	}
+
+	public void fetchArticles() {
 		if (refreshing)
 			return;
 
 		refreshing = true;
 
 		// Load articles on first launch (or if forceLoad)
-		if (bm.getPosts().isEmpty() || forceLoad)
-			bm.loadArticles(new Util.ProgressListener() {
-				private long lastArticleId;
+		bm.loadArticles(new Util.ProgressListener() {
+			private long lastArticleId;
 
-				@Override
-				public void onPreExecute() {
-					swipeRefreshLayout.post(new Runnable() {
-						@Override
-						public void run() {
-							swipeRefreshLayout.setRefreshing(true);
-						}
-					});
-
-					List<Post> articles = bm.getPosts();
-					if (articles.size() > 0)
-						this.lastArticleId = articles.get(articles.size() - 1).getId();
-					else
-						this.lastArticleId = -1;
-
-					Util.setViewAlpha(postsContainer, 0.7f);
-				}
-
-				@Override
-				public void onProgress(int progress, int total) { }
-
-				@Override
-				public void onPostExecute() {
-					// Find lastArticleId and compare it (see if there has been any changes)
-					List<Post> articles = bm.getPosts();
-
-					long lastArticleId = -1;
-					if (articles.size() > 0)
-						lastArticleId = articles.get(articles.size() - 1).getId();
-
-					boolean newArticles = this.lastArticleId != lastArticleId;
-					if (newArticles) {
-						postsContainer.removeAllViews();
-						adapter.inflate(bm.getPosts());
+			@Override
+			public void onPreExecute() {
+				swipeRefreshLayout.post(new Runnable() {
+					@Override
+					public void run() {
+						swipeRefreshLayout.setRefreshing(true);
 					}
+				});
 
-					Util.setViewAlpha(postsContainer, 1f);
+				List<Post> articles = bm.getPosts();
+				if (articles.size() > 0)
+					this.lastArticleId = articles.get(articles.size() - 1).getId();
+				else
+					this.lastArticleId = -1;
 
-					swipeRefreshLayout.post(new Runnable() {
-						@Override
-						public void run() {
-							swipeRefreshLayout.setRefreshing(false);
-						}
-					});
-					refreshing = false;
+				Util.setViewAlpha(postsContainer, 0.7f);
+			}
 
-					// Save lastArticlesFetch
-					DateFormat dateFormat = BM.getDateFormat();
-					Date now = Calendar.getInstance().getTime();
-					Util.setPref(context, "lastArticlesFetch", dateFormat.format(now));
+			@Override
+			public void onProgress(int progress, int total) { }
+
+			@Override
+			public void onPostExecute() {
+				// Find lastArticleId and compare it (see if there has been any changes)
+				List<Post> articles = bm.getPosts();
+
+				long lastArticleId = -1;
+				if (articles.size() > 0)
+					lastArticleId = articles.get(articles.size() - 1).getId();
+
+				boolean newArticles = this.lastArticleId != lastArticleId;
+				if (newArticles) {
+					postsContainer.removeAllViews();
+					adapter.inflate(bm.getPosts());
 				}
-			}, forceLoad);
+
+				Util.setViewAlpha(postsContainer, 1f);
+
+				swipeRefreshLayout.post(new Runnable() {
+					@Override
+					public void run() {
+						swipeRefreshLayout.setRefreshing(false);
+					}
+				});
+				refreshing = false;
+
+				// Save lastArticlesFetch
+				DateFormat dateFormat = BM.getDateFormat();
+				Date now = Calendar.getInstance().getTime();
+				Util.setPref(context, "lastArticlesFetch", dateFormat.format(now));
+			}
+		}, ArticlesLoader.Mode.INTERNET);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_refresh:
-				fetchArticles(true);
+				fetchArticles();
 				return true;
 		}
 		return super.onOptionsItemSelected(item);

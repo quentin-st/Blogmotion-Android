@@ -14,14 +14,16 @@ import java.util.List;
  * Gets a list of Article to be put in the posts array list in parameter
  */
 public class ArticlesLoader extends AsyncTask<Void, Integer, Void> {
+	public enum Mode { CACHE, INTERNET }
+
 	private List<Post> posts;
 	private Util.ProgressListener progressListener;
-	private boolean forceLoad;
+	private Mode mode;
 
-	public ArticlesLoader(List<Post> posts, Util.ProgressListener progressListener, boolean forceLoad) {
+	public ArticlesLoader(List<Post> posts, Util.ProgressListener progressListener, Mode mode) {
 		this.posts = posts;
 		this.progressListener = progressListener;
-		this.forceLoad = forceLoad;
+		this.mode = mode;
 	}
 
 	@Override
@@ -38,7 +40,7 @@ public class ArticlesLoader extends AsyncTask<Void, Integer, Void> {
 		DatabaseHelper dbHelper = BM.getInstance(null).getDbHelper();
 
 		boolean hasPosts = dbHelper.hasPosts();
-		if (forceLoad || !hasPosts) {
+		if (mode == Mode.INTERNET) {
 			publishProgress(30);
 
 			ArticlesHelper.parse(BM.FEED_URL, this.posts);
